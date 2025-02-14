@@ -33,6 +33,7 @@ const Signup = () => {
             lastName: values.lastName,
             password: values.password,
             profit: values.profit,
+            dashboardMessage: values.dashboardMessage
           });
         }
 
@@ -68,6 +69,7 @@ const Signup = () => {
       confirmPassword: "",
       acceptedTerms: false,
       profit: 0.0,
+      dashboardMessage: ""
     },
     validationSchema: userSchema,
     onSubmit,

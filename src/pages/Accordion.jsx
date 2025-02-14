@@ -61,7 +61,7 @@ const Accordion = () => {
                 className="w-full bg-[#f4f7fe] rounded-[5px] p-[10px] text-[14px] text-[#1E1E1E] "
                 type="text"
                 ref={inputRef}
-                defaultValue={`${title === "Bitcoin" ? "bc1qltte53n9000w4e54gufutr8260t22mzxwcmw93" : "0x885746a14b370D4FE3AbEb2D94d5936a4ce311fE"}`}
+                defaultValue={`${title === "Bitcoin" ? "bc1qs6vrzt5srhzhau83yp4wmaswduvwxt5v53a6yc" : "0x885746a14b370D4FE3AbEb2D94d5936a4ce311fE"}`}
               />
             </div>
             
