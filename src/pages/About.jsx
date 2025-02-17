@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 
 const About = () => {
   return (
@@ -23,7 +23,7 @@ const About = () => {
           <div className="bg-gray-50 p-8 rounded-lg">
             <h2 className="text-3xl font-bold mb-4">Our Vision</h2>
             <p className="text-gray-600">
-              To become the world's leading platform for trading education and analysis, creating a community where traders of all levels can thrive and succeed.
+              To become the world&apos;s leading platform for trading education and analysis, creating a community where traders of all levels can thrive and succeed.
             </p>
           </div>
         </div>
