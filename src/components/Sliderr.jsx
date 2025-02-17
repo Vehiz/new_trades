@@ -1,173 +1,107 @@
-
-import Slider from "react-slick";
+import { useEffect, useState } from 'react';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { AiFillStar } from "react-icons/ai";
-import CarouselImg1 from "../assets/cauroselImg1.jpeg"
-import CarouselImg2 from "../assets/cauroselImg2.jpeg"
-import CarouselImg3 from "../assets/cauroselImg3.jpeg"
 
 const Sliderr = () => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    speed: 2000,
-    autoplaySpeed: 2000,
-    cssEase: "linear",
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
-  };
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const testimonials = [
+    {
+      name: "John Smith",
+      role: "Crypto Trader",
+      text: "This platform has completely transformed my trading experience. The real-time analytics and user-friendly interface make trading easier than ever.",
+      image: "https://randomuser.me/api/portraits/men/1.jpg"
+    },
+    {
+      name: "Sarah Johnson",
+      role: "Investment Analyst",
+      text: "The comprehensive market insights and trading tools available here have significantly improved my decision-making process.",
+      image: "https://randomuser.me/api/portraits/women/2.jpg"
+    },
+    {
+      name: "Michael Chen",
+      role: "Day Trader",
+      text: "Outstanding platform! The technical analysis tools and community insights have helped me achieve consistent returns.",
+      image: "https://randomuser.me/api/portraits/men/3.jpg"
+    }
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => 
+        prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [testimonials.length]);
+
   return (
-    <div className="py-20 shadow-inner px-6 md:px-12 lg:px-24">
-      <div className="flex justify-center items-center py-12 md:py-16">
-        <h2 className="text-center text-[#1E1E1E] mb-6 text-3xl md:text-4xl lg:text-5xl leading-tight font-semibold">
-          What our clients say
-        </h2>
+    <div className="relative py-20 overflow-hidden">
+      {/* Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-50 via-blue-50/50 to-white"></div>
+      
+      {/* Decorative Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-0 w-72 h-72 bg-blue-200/20 rounded-full filter blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-72 h-72 bg-indigo-200/20 rounded-full filter blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
       </div>
-      <Slider {...settings}>
-        <div className="w-full p-6 md:p-10 shadow-inner">
-          <div className="flex gap-4 mb-6">
-            <img
-              src={CarouselImg3}
-              alt=""
-              className="w-16 h-16 rounded-full object-cover"
-            />
-            <div>
-              <h2 className="font-bold text-lg">Sarah T.</h2>
-              <p className="text-gray-500">Administrative Assistant</p>
+
+      <div className="relative container mx-auto px-4">
+        <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          What Our Traders Say
+        </h2>
+        
+        <div className="relative max-w-4xl mx-auto">
+          <div
+            className="flex flex-col items-center transition-all duration-500 ease-in-out"
+          >
+            <div className="w-24 h-24 mb-6 rounded-full overflow-hidden border-4 border-blue-500/20 shadow-xl">
+              <img 
+                src={testimonials[currentIndex].image} 
+                alt={testimonials[currentIndex].name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            
+            <p className="text-xl text-gray-700 text-center mb-6 italic px-4 md:px-8 leading-relaxed">
+              "{testimonials[currentIndex].text}"
+            </p>
+            
+            <h3 className="text-2xl font-semibold text-gray-900">
+              {testimonials[currentIndex].name}
+            </h3>
+            
+            <p className="text-blue-600 font-medium mb-6">
+              {testimonials[currentIndex].role}
+            </p>
+
+            <div className="flex text-[#FFD44B] text-2xl gap-1">
+              <AiFillStar />
+              <AiFillStar />
+              <AiFillStar />
+              <AiFillStar />
+              <AiFillStar />
             </div>
           </div>
-          <div className="mt-4">
-            <p className="text-gray-600">&quot;I&apos;ve been investing in cryptocurrencies for a couple of years now, and it has significantly improved my financial situation. The key is to stay informed and be prepared for market fluctuations. Overall, it&apos;s been a positive and rewarding experience.&quot;</p>
-          </div>
-          <div className="flex text-[#FFD44B] text-2xl gap-1 mt-6">
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-          </div>
-        </div>
-        <div className="w-full p-6 md:p-10 shadow-inner">
-          <div className="flex gap-4 mb-6">
-            <img
-              src={CarouselImg2}
-              alt=""
-              className="w-16 h-16 rounded-full object-cover"
-            />
-            <div>
-              <h2 className="font-bold text-lg">John T.</h2>
-              <p className="text-gray-500">Data Analyst</p>
-            </div>
-          </div>
-          <div className="mt-4">
-            <p className="text-gray-600">&quot;Investing in cryptocurrencies has been a game-changer for my portfolio. I&apos;ve seen significant returns in a short period, especially with Bitcoin and Ethereum. The volatility can be nerve-wracking, but the potential rewards have made it worth it for me.&quot;</p>
-          </div>
-          <div className="flex text-[#FFD44B] text-2xl gap-1 mt-6">
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
+
+          <div className="flex justify-center mt-8 space-x-2">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex 
+                    ? 'bg-blue-600 w-8' 
+                    : 'bg-blue-200 hover:bg-blue-300'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
           </div>
         </div>
-        <div className="w-full p-6 md:p-10 shadow-inner">
-          <div className="flex gap-4 mb-6">
-            <img
-              src={CarouselImg1}
-              alt=""
-              className="w-16 h-16 rounded-full object-cover"
-            />
-            <div>
-              <h2 className="font-bold text-lg">Dimitris P.</h2>
-              <p className="text-gray-500">Service Delivery Manager</p>
-            </div>
-          </div>
-          <div className="mt-4">
-            <p className="text-gray-600"> &quot;started investing in cryptocurrencies a year ago, and it&apos;s been a thrilling journey. The growth of my investments has been impressive, and the technology behind it is fascinating. I appreciate the decentralization aspect and believe in its long-term potential.&quot;</p>
-          </div>
-          <div className="flex text-[#FFD44B] text-2xl gap-1 mt-6">
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-          </div>
-        </div>
-        <div className="w-full p-6 md:p-10 shadow-inner">
-          <div className="flex gap-4 mb-6">
-            <img
-              src=""
-              alt=""
-              className="w-16 h-16 rounded-full object-cover"
-            />
-            <div>
-              <h2 className="font-bold text-lg">Alvaro C.</h2>
-              <p className="text-gray-500">Operations Manager</p>
-            </div>
-          </div>
-          <div className="mt-4">
-            <p className="text-gray-600">&quot;Cryptocurrency investment has allowed me to diversify my portfolio beyond traditional stocks and bonds. The returns have been substantial, particularly during market upswings. I&quot;ve also enjoyed learning about blockchain technology and its potential applications.&quot;</p>
-          </div>
-          <div className="flex text-[#FFD44B] text-2xl gap-1 mt-6">
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-          </div>
-        </div>
-        <div className="w-full p-6 md:p-10 shadow-inner">
-          <div className="flex gap-4 mb-6">
-            <img
-              src=""
-              alt=""
-              className="w-16 h-16 rounded-full object-cover"
-            />
-            <div>
-              <h2 className="font-bold text-lg">Bradley J.</h2>
-              <p className="text-gray-500">Software Engineer</p>
-            </div>
-          </div>
-          <div className="mt-4">
-            <p className="text-gray-600">&quot;As a tech enthusiast, investing in cryptocurrencies felt like a natural step. The returns have been excellent, and it&quot;s been exciting to be part of such an innovative space. I recommend it to anyone willing to do their research and understand the risks involved.&quot;</p>
-          </div>
-          <div className="flex text-[#FFD44B] text-2xl gap-1 mt-6">
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-            <AiFillStar />
-          </div>
-        </div>
-      </Slider>
+      </div>
     </div>
   );
 };
