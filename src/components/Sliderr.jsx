@@ -38,71 +38,109 @@ const Sliderr = () => {
   }, [testimonials.length]);
 
   return (
-    <div className="relative py-20 overflow-hidden">
-      {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-50 via-blue-50/50 to-white"></div>
-      
-      {/* Decorative Elements */}
+    <section className="relative overflow-hidden py-12 sm:py-20 bg-slate-50">
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-blue-50/40 to-slate-50" />
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-0 w-72 h-72 bg-blue-200/20 rounded-full filter blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 right-0 w-72 h-72 bg-indigo-200/20 rounded-full filter blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
+        <div className="absolute -top-10 -left-10 h-72 w-72 rounded-full bg-blue-200/20 blur-3xl" />
+        <div className="absolute -bottom-10 -right-10 h-72 w-72 rounded-full bg-indigo-200/20 blur-3xl" />
       </div>
 
-      <div className="relative container mx-auto px-4">
-        <h2 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-          What Our Traders Say
-        </h2>
-        
-        <div className="relative max-w-4xl mx-auto">
-          <div
-            className="flex flex-col items-center transition-all duration-500 ease-in-out"
-          >
-            <div className="w-24 h-24 mb-6 rounded-full overflow-hidden border-4 border-blue-500/20 shadow-xl">
-              <img 
-                src={testimonials[currentIndex].image} 
-                alt={testimonials[currentIndex].name}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            
-            <p className="text-xl text-gray-700 text-center mb-6 italic px-4 md:px-8 leading-relaxed">
-              "{testimonials[currentIndex].text}"
-            </p>
-            
-            <h3 className="text-2xl font-semibold text-gray-900">
-              {testimonials[currentIndex].name}
-            </h3>
-            
-            <p className="text-blue-600 font-medium mb-6">
-              {testimonials[currentIndex].role}
-            </p>
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 md:px-0">
+        <div className="mb-10 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-600">
+            Testimonials
+          </p>
+          <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900">
+            What Our Traders Say
+          </h2>
+          <p className="mt-2 text-sm text-slate-500">
+            Real feedback from our global community of crypto traders.
+          </p>
+        </div>
 
-            <div className="flex text-[#FFD44B] text-2xl gap-1">
-              <AiFillStar />
-              <AiFillStar />
-              <AiFillStar />
-              <AiFillStar />
-              <AiFillStar />
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+          <div className="space-y-6">
+            <div className="rounded-3xl border border-white/60 bg-white/80 p-6 shadow-xl shadow-blue-500/10 backdrop-blur">
+              <div className="flex items-center gap-4">
+                <div className="h-14 w-14 overflow-hidden rounded-2xl ring-4 ring-blue-500/10">
+                  <img
+                    src={testimonials[currentIndex].image}
+                    alt={testimonials[currentIndex].name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div>
+                  <p className="text-lg font-semibold text-slate-900">
+                    {testimonials[currentIndex].name}
+                  </p>
+                  <p className="text-sm text-blue-600">
+                    {testimonials[currentIndex].role}
+                  </p>
+                </div>
+              </div>
+              <p className="mt-5 text-sm sm:text-base text-slate-600 leading-relaxed">
+                “{testimonials[currentIndex].text}”
+              </p>
+              <div className="mt-4 flex text-[#FFD44B] text-xl gap-1">
+                <AiFillStar />
+                <AiFillStar />
+                <AiFillStar />
+                <AiFillStar />
+                <AiFillStar />
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              {testimonials.map((item, index) => (
+                <button
+                  key={item.name}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`rounded-full border px-4 py-2 text-xs font-semibold transition-all ${
+                    index === currentIndex
+                      ? "border-blue-600 bg-blue-600 text-white"
+                      : "border-blue-100 bg-white text-slate-600 hover:border-blue-300"
+                  }`}
+                >
+                  {item.name}
+                </button>
+              ))}
             </div>
           </div>
 
-          <div className="flex justify-center mt-8 space-x-2">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex 
-                    ? 'bg-blue-600 w-8' 
-                    : 'bg-blue-200 hover:bg-blue-300'
+          <div className="grid gap-4 sm:grid-cols-2">
+            {testimonials.map((item, index) => (
+              <div
+                key={item.name}
+                className={`rounded-2xl border bg-white/80 p-4 shadow-sm backdrop-blur transition-all ${
+                  index === currentIndex
+                    ? "border-blue-200 shadow-lg shadow-blue-500/10"
+                    : "border-slate-100"
                 }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
+              >
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 overflow-hidden rounded-xl">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900">
+                      {item.name}
+                    </p>
+                    <p className="text-xs text-slate-500">{item.role}</p>
+                  </div>
+                </div>
+                <p className="mt-3 text-xs text-slate-600 line-clamp-3">
+                  “{item.text}”
+                </p>
+              </div>
             ))}
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

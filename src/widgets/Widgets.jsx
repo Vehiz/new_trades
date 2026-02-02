@@ -1,6 +1,8 @@
-import  { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const TradingViewWidget = () => {
+  const containerRef = useRef(null);
+
   useEffect(() => {
     // Load the TradingView widget
     const script = document.createElement('script');
@@ -59,19 +61,22 @@ const TradingViewWidget = () => {
       "locale": "${widgetConfig.locale}"
     }`;
 
-    // Append the script to the document
-    document.getElementsByClassName('tradingview-widget-container__widget')[0].appendChild(script);
+    if (containerRef.current) {
+      containerRef.current.appendChild(script);
+    }
 
     // Clean up when component unmounts
     return () => {
-      document.getElementsByClassName('tradingview-widget-container__widget')[0].removeChild(script);
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
     };
   }, []);
 
   return (
     <div className='fixed top-0 w-full z-40 bg-white shadow-md'>
     <div className="tradingview-widget-container">
-      <div className="tradingview-widget-container__widget"></div>
+      <div ref={containerRef} className="tradingview-widget-container__widget"></div>
       <div className="tradingview-widget-copyright">
         <a href="https://www.tradingview.com/" rel="noopener noreferrer" target="_blank">
         </a>

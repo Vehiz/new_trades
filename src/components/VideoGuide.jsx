@@ -5,20 +5,21 @@ import AccordionItems from "./AccordionItems";
 
 const VideoGuide = () => {
   return (
-    <section>
-  <div className="w-full px-6 md:px-8 lg:px-12 bg-[#02021E] mx-auto shadow-inner">
-    <div className="flex flex-col lg:flex-row py-24 justify-center items-center">
-      <div className="w-full lg:w-1/2 pr-0 lg:pr-12 pl-0 lg:pl-3 mb-12 lg:mb-0">
+    <section className="bg-[#02021E] shadow-inner">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-0">
+        <div className="flex flex-col lg:flex-row py-16 sm:py-24 justify-center items-center gap-8">
+      <div className="w-full lg:w-1/2 pr-0 lg:pr-12 pl-0 lg:pl-3">
         <div className="relative">
           <img
             src={video}
             alt=""
             className="w-full h-full object-cover"
           />
-          <div className="absolute w-24 h-24 rounded-full bg-[#02021E] text-3xl flex items-center justify-center text-[#F54748] bottom-[40%] left-[45%] transform -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute inset-0 flex items-center justify-center">
             <a
               href="https://www.youtube.com/watch?v=jUXQCnUSfCQ"
-              className=""
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#02021E] text-2xl sm:text-3xl flex items-center justify-center text-[#F54748]"
+              aria-label="Play video"
             >
               <BsCaretRightFill />
             </a>
@@ -28,7 +29,7 @@ const VideoGuide = () => {
 
       <div className="w-full lg:w-1/2">
         <div>
-          <div className="text-4xl md:text-5xl lg:text-6xl text-white leading-tight pr-0 lg:pr-12 pl-0 lg:pl-3 font-bold mb-6 lg:mb-8">
+          <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight pr-0 lg:pr-12 pl-0 lg:pl-3 font-bold mb-4 sm:mb-6 lg:mb-8">
             <h2>If you want to know anything, ask us</h2>
           </div>
         </div>
@@ -45,8 +46,8 @@ const VideoGuide = () => {
         </div>
       </div>
     </div>
-  </div>
-</section>
+      </div>
+    </section>
 
   );
 };

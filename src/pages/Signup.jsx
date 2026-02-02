@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import { userSchema } from "../validation/userValidation";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { setDoc, doc } from "firebase/firestore";
 import {
@@ -78,159 +78,223 @@ if(loading){
   return <PreLoader/>
 }
   return (
-<section
-      className="relative w-full h-screen flex flex-col items-center justify-center mt-[x]"
+    <section
+      className="relative w-full min-h-screen flex items-center justify-center px-4 py-12"
       style={{
         backgroundImage: `url(${jiggy_home})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-    >      <a href="/" className="absolute top-0 left-0 m-4">
-        <p className="underline text-white text-[22px]">Home</p>
-      </a>
-      <div className="flex flex-col md:flex-row w-full lg:w-3/5 bg-transparent from-blue-600 via-blue-700 to-blue-900 bg-opacity-80 rounded-md items-center gap-5 justify-center p-8">
-        <form
-          onSubmit={handleSubmit}
-          className="w-full md:w-1/2 bg-white p-6 my-9 rounded-md"
-        >
-          <div className="text-center mb-6">
-            <p className="text-2xl font-bold">Register</p>
-          </div>
-          <div className="space-y-4">
+    >
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0b1226]/90 via-[#0b1226]/85 to-[#0b1226]/95" />
+
+      <Link
+        to="/"
+        className="absolute top-6 left-6 z-10 inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/20"
+      >
+        Back to Home
+      </Link>
+
+      <div className="relative z-10 w-full max-w-5xl">
+        <div className="grid w-full items-stretch gap-6 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur md:grid-cols-2">
+          <div className="flex flex-col justify-center gap-6 p-6 sm:p-10 text-white">
             <div>
-              <input
-                className={`shadow appearance-none w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                  errors.firstName && touched.firstName
-                    ? "border-red-600"
-                    : "border-gray-300"
-                }`}
-                type="text"
-                placeholder="Firstname"
-                id="firstName"
-                name="firstName"
-                value={values.firstName}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              {errors.firstName && touched.firstName && (
-                <p className="text-red-600 text-xs">{errors.firstName}</p>
-              )}
-            </div>
-            <div>
-              <input
-                className={`shadow appearance-none w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                  errors.lastName && touched.lastName
-                    ? "border-red-600"
-                    : "border-gray-300"
-                }`}
-                type="text"
-                placeholder="Lastname"
-                id="lastName"
-                name="lastName"
-                value={values.lastName}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              {errors.lastName && touched.lastName && (
-                <p className="text-red-600 text-xs">{errors.lastName}</p>
-              )}
-            </div>
-            <div>
-              <input
-                className={`shadow appearance-none w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                  errors.email && touched.email
-                    ? "border-red-600"
-                    : "border-gray-300"
-                }`}
-                type="email"
-                placeholder="Email"
-                id="email"
-                name="email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              {errors.email && touched.email && (
-                <p className="text-red-600 text-xs">{errors.email}</p>
-              )}
-            </div>
-            <div>
-              <input
-                className={`shadow appearance-none w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                  errors.password && touched.password
-                    ? "border-red-600"
-                    : "border-gray-300"
-                }`}
-                type="password"
-                placeholder="Password"
-                id="password"
-                name="password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              {errors.password && touched.password && (
-                <p className="text-red-600 text-xs">{errors.password}</p>
-              )}
-            </div>
-            <div>
-              <input
-                className={`shadow appearance-none w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                  errors.confirmPassword && touched.confirmPassword
-                    ? "border-red-600"
-                    : "border-gray-300"
-                }`}
-                type="password"
-                placeholder="Confirm Password"
-                id="confirmPassword"
-                name="confirmPassword"
-                value={values.confirmPassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              {errors.confirmPassword && touched.confirmPassword && (
-                <p className="text-red-600 text-xs">{errors.confirmPassword}</p>
-              )}
-            </div>
-          </div>
-          <div className="flex items-start gap-2 mt-4 text-sm">
-            <input
-              className="mt-1"
-              id="acceptedTerms"
-              name="acceptedTerms"
-              type="checkbox"
-              checked={values.acceptedTerms}
-              onChange={handleChange}
-            />
-            <label htmlFor="acceptedTerms">
-              I confirm that I am 18 years old or older and accept the 
-              <a href="/terms" className="text-blue-500 hover:text-blue-700"> terms & conditions</a> and <a href="/terms" className="text-blue-500 hover:text-blue-700">privacy policy</a>
-            </label>
-          </div>
-          {errors.acceptedTerms && touched.acceptedTerms && (
-            <p className="text-red-600 text-xs">{errors.acceptedTerms}</p>
-          )}
-          <div className="flex flex-col gap-5 mt-5 items-center justify-between">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-              disabled={isSubmitting || loading}
-            >
-              {loading ? <span className="">...</span> : "Register"}
-            </button>
-            <div className="flex items-center justify-center">
-              <p className="text-sm">
-                Already have an account?{" "}
-                <a href="/login" className="text-blue-500 hover:text-blue-700">
-                  Signin
-                </a>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-200">
+                Get started
+              </p>
+              <h1 className="mt-3 text-3xl sm:text-4xl font-bold">
+                Create your BlockTrade account
+              </h1>
+              <p className="mt-3 text-sm text-white/70">
+                Join thousands of traders using real-time insights, automated
+                strategies, and secure portfolio management.
               </p>
             </div>
+            <div className="grid gap-3 text-sm text-white/80">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                Secure onboarding with verification
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                Access advanced trading tools
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                Track performance in one dashboard
+              </div>
+            </div>
           </div>
-        </form>
-      </div>
-      <div className="text-gray-400 mt-11">
-        <p>Copyright © {new Date().getFullYear()} BlockMine</p>
+
+          <form
+            onSubmit={handleSubmit}
+            className="w-full bg-slate-900/80 p-6 sm:p-10 text-white"
+          >
+            <div className="mb-6 text-center">
+              <p className="text-2xl font-bold">Create account</p>
+              <p className="mt-1 text-sm text-white/60">
+                Start trading in minutes.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="firstName" className="text-sm font-medium text-white/80">
+                  First name
+                </label>
+                <input
+                  className={`mt-2 w-full rounded-lg border bg-slate-900/60 px-3 py-2 text-sm text-white shadow-sm focus:border-emerald-300 focus:outline-none ${
+                    errors.firstName && touched.firstName
+                      ? "border-red-400"
+                      : "border-white/10"
+                  }`}
+                  type="text"
+                  placeholder="Jane"
+                  id="firstName"
+                  name="firstName"
+                  value={values.firstName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.firstName && touched.firstName && (
+                  <p className="mt-1 text-xs text-red-300">{errors.firstName}</p>
+                )}
+              </div>
+              <div>
+                <label htmlFor="lastName" className="text-sm font-medium text-white/80">
+                  Last name
+                </label>
+                <input
+                  className={`mt-2 w-full rounded-lg border bg-slate-900/60 px-3 py-2 text-sm text-white shadow-sm focus:border-emerald-300 focus:outline-none ${
+                    errors.lastName && touched.lastName
+                      ? "border-red-400"
+                      : "border-white/10"
+                  }`}
+                  type="text"
+                  placeholder="Doe"
+                  id="lastName"
+                  name="lastName"
+                  value={values.lastName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.lastName && touched.lastName && (
+                  <p className="mt-1 text-xs text-red-300">{errors.lastName}</p>
+                )}
+              </div>
+              <div>
+                <label htmlFor="email" className="text-sm font-medium text-white/80">
+                  Email address
+                </label>
+                <input
+                  className={`mt-2 w-full rounded-lg border bg-slate-900/60 px-3 py-2 text-sm text-white shadow-sm focus:border-emerald-300 focus:outline-none ${
+                    errors.email && touched.email
+                      ? "border-red-400"
+                      : "border-white/10"
+                  }`}
+                  type="email"
+                  placeholder="you@email.com"
+                  id="email"
+                  name="email"
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.email && touched.email && (
+                  <p className="mt-1 text-xs text-red-300">{errors.email}</p>
+                )}
+              </div>
+              <div>
+                <label htmlFor="password" className="text-sm font-medium text-white/80">
+                  Password
+                </label>
+                <input
+                  className={`mt-2 w-full rounded-lg border bg-slate-900/60 px-3 py-2 text-sm text-white shadow-sm focus:border-emerald-300 focus:outline-none ${
+                    errors.password && touched.password
+                      ? "border-red-400"
+                      : "border-white/10"
+                  }`}
+                  type="password"
+                  placeholder="Create a password"
+                  id="password"
+                  name="password"
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.password && touched.password && (
+                  <p className="mt-1 text-xs text-red-300">{errors.password}</p>
+                )}
+              </div>
+              <div>
+                <label htmlFor="confirmPassword" className="text-sm font-medium text-white/80">
+                  Confirm password
+                </label>
+                <input
+                  className={`mt-2 w-full rounded-lg border bg-slate-900/60 px-3 py-2 text-sm text-white shadow-sm focus:border-emerald-300 focus:outline-none ${
+                    errors.confirmPassword && touched.confirmPassword
+                      ? "border-red-400"
+                      : "border-white/10"
+                  }`}
+                  type="password"
+                  placeholder="Confirm password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={values.confirmPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.confirmPassword && touched.confirmPassword && (
+                  <p className="mt-1 text-xs text-red-300">{errors.confirmPassword}</p>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-4 flex items-start gap-2 text-sm text-white/70">
+              <input
+                className="mt-1 h-4 w-4 rounded border-white/30 bg-transparent"
+                id="acceptedTerms"
+                name="acceptedTerms"
+                type="checkbox"
+                checked={values.acceptedTerms}
+                onChange={handleChange}
+              />
+              <label htmlFor="acceptedTerms">
+                I confirm that I am 18 years old or older and accept the
+                <Link to="/terms" className="ml-1 text-emerald-200 hover:text-emerald-100">
+                  terms &amp; conditions
+                </Link>
+                <span className="mx-1">and</span>
+                <Link to="/terms" className="text-emerald-200 hover:text-emerald-100">
+                  privacy policy
+                </Link>
+              </label>
+            </div>
+            {errors.acceptedTerms && touched.acceptedTerms && (
+              <p className="mt-1 text-xs text-red-300">{errors.acceptedTerms}</p>
+            )}
+
+            <div className="mt-6 space-y-4">
+              <button
+                className="w-full rounded-lg bg-emerald-500/20 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-500/30"
+                type="submit"
+                disabled={isSubmitting || loading}
+              >
+                {loading ? <span>...</span> : "Create account"}
+              </button>
+              <p className="text-center text-sm text-white/70">
+                Already have an account?{" "}
+                <Link to="/login" className="font-semibold text-emerald-200 hover:text-emerald-100">
+                  Sign in
+                </Link>
+              </p>
+            </div>
+          </form>
+        </div>
+
+        <div className="mt-8 text-center text-xs text-white/60">
+          Copyright © {new Date().getFullYear()} Blocktrade
+        </div>
       </div>
     </section>
   );

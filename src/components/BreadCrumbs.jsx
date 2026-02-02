@@ -6,12 +6,12 @@ const BreadCrumbs = () => {
   const lastCrumb = pathnames[pathnames.length - 1];
 
   return (
-    <nav aria-label="breadcrumb" className="flex text-[14px] md:text-[25px] text-gray-500 ml-12 mt-7 space-x-2">
+    <nav aria-label="breadcrumb" className="flex text-xs sm:text-sm text-gray-400 mt-4 space-x-2">
       {lastCrumb && (
         <div className="flex items-center">
           <Link 
             to={`/account/${lastCrumb}`} 
-            className="text-blue-500 hover:underline capitalize font-semibold"
+            className="text-blue-600 hover:underline capitalize font-semibold"
             aria-current="page"
           >
             {lastCrumb}

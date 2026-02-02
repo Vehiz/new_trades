@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PreLoader from "../components/PreLoader";
 import jiggy_home from "../assets/jiggy_home.jpeg";
 
@@ -57,105 +57,151 @@ const Login = () => {
 
   return (
     <section
-      className="relative w-full min-h-screen  flex flex-col items-center justify-center "
+      className="relative w-full min-h-screen flex items-center justify-center px-4 py-12"
       style={{
         backgroundImage: `url(${jiggy_home})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      {" "}
-      <a href="/" className="absolute top-0 left-0 m-4">
-        <p className="underline text-white text-[22px]">Home</p>
-      </a>
-      <div className="flex flex-col md:flex-row w-full lg:w-3/5 bg-transparent from-blue-600 via-blue-700 to-blue-900 bg-opacity-80 rounded-md items-center gap-5 justify-center p-8">
-        <form
-          onSubmit={handleSubmit}
-          className="w-full md:w-1/2 bg-white p-6 my-9 rounded-md"
-        >
-          <div className="flex items-center justify-center">
-            <h1 className="text-2xl font-bold mb-4">Login</h1>
-          </div>
-          <div className="">
-            <div className="mb-4">
-              <input
-                className={
-                  errors.email && touched.email
-                    ? "shadow appearance-none w-full border border-red-600 rounded placeholder- py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    : "shadow appearance-none w-full border rounded placeholder- py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                }
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Email"
-                value={values.email}
-                onChange={handleChange}
-              />
-              {errors.email && touched.email && (
-                <p className="text-[red] text-[12px]">{errors.email}</p>
-              )}
-            </div>
-            <div className="mb-4">
-              <input
-                className={
-                  errors.password && touched.password
-                    ? "shadow appearance-none w-full border border-red-600 rounded placeholder- py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    : "shadow appearance-none w-full border rounded placeholder- py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                }
-                placeholder="Password"
-                type="password"
-                id="password"
-                name="password"
-                value={values.password}
-                onChange={handleChange}
-              />
-              {errors.password && touched.password && (
-                <p className="text-[red] text-[12px]">{errors.password}</p>
-              )}
-            </div>
-            <div className="mb-4 flex gap-[8px]">
-              <input
-                id="rememberMe"
-                name="rememberMe"
-                type="checkbox"
-                checked={values.rememberMe}
-                onChange={handleChange}
-              />
-              <label htmlFor="rememberMe">Remember Me</label>
-            </div>
-            {errors.rememberMe && touched.rememberMe && (
-              <p className="text-[red] text-[12px]">{errors.rememberMe}</p>
-            )}
-          </div>
-          <div className="flex flex-col gap-[15px] mt-[15px] items-center justify-between">
-            <button
-              className="bg-blue-500 opacity-80 hover:bg-blue-700 w-full mt-[10px] text-[#fff] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-              disabled={isSubmitting || loading}
-            >
-              {loading ? <span className="">...</span> : "Login"}
-            </button>
-            <div className="flex justify-center">
-              <a
-                href="/forgotpassword"
-                className="text-blue-500 hover:text-blue-700"
-              >
-                Forgot Password?
-              </a>
-            </div>
-            <div className="flex items-center justify-center">
-              <p className="text-[14px]">
-                Don&rsquo;t have account ?{" "}
-                <a href="/signup" className="text-blue-500 hover:text-blue-700">
-                  Register
-                </a>
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0b1226]/90 via-[#0b1226]/85 to-[#0b1226]/95" />
+
+      <Link
+        to="/"
+        className="absolute top-6 left-6 z-10 inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/20"
+      >
+        Back to Home
+      </Link>
+
+      <div className="relative z-10 w-full max-w-5xl">
+        <div className="grid w-full items-stretch gap-6 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur md:grid-cols-2">
+          <div className="flex flex-col justify-center gap-6 p-6 sm:p-10 text-white">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-200">
+                Welcome back
+              </p>
+              <h1 className="mt-3 text-3xl sm:text-4xl font-bold">
+                Log in to your BlockTrade account
+              </h1>
+              <p className="mt-3 text-sm text-white/70">
+                Access your portfolio, manage trades, and monitor real-time market
+                signals all in one place.
               </p>
             </div>
+            <div className="grid gap-3 text-sm text-white/80">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                Real-time analytics and alerts
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                Secure withdrawals and deposits
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                24/7 automated trading tools
+              </div>
+            </div>
           </div>
-        </form>
-      </div>
-      <div className="text-gray-400 mt-11">
-        <p>Copyright © {new Date().getFullYear()} BlockMine</p>
+
+          <form
+            onSubmit={handleSubmit}
+            className="w-full bg-slate-900/80 p-6 sm:p-10 text-white"
+          >
+            <div className="mb-6 text-center">
+              <h2 className="text-2xl font-bold">Login</h2>
+              <p className="mt-1 text-sm text-white/60">
+                Welcome back, please enter your details.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="email" className="text-sm font-medium text-white/80">
+                  Email address
+                </label>
+                <input
+                  className={
+                    errors.email && touched.email
+                      ? "mt-2 w-full rounded-lg border border-red-400 bg-slate-900/60 px-3 py-2 text-sm text-white shadow-sm focus:border-emerald-300 focus:outline-none"
+                      : "mt-2 w-full rounded-lg border border-white/10 bg-slate-900/60 px-3 py-2 text-sm text-white shadow-sm focus:border-emerald-300 focus:outline-none"
+                  }
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="you@email.com"
+                  value={values.email}
+                  onChange={handleChange}
+                />
+                {errors.email && touched.email && (
+                  <p className="mt-1 text-xs text-red-300">{errors.email}</p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="password" className="text-sm font-medium text-white/80">
+                  Password
+                </label>
+                <input
+                  className={
+                    errors.password && touched.password
+                      ? "mt-2 w-full rounded-lg border border-red-400 bg-slate-900/60 px-3 py-2 text-sm text-white shadow-sm focus:border-emerald-300 focus:outline-none"
+                      : "mt-2 w-full rounded-lg border border-white/10 bg-slate-900/60 px-3 py-2 text-sm text-white shadow-sm focus:border-emerald-300 focus:outline-none"
+                  }
+                  placeholder="••••••••"
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={values.password}
+                  onChange={handleChange}
+                />
+                {errors.password && touched.password && (
+                  <p className="mt-1 text-xs text-red-300">{errors.password}</p>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between text-sm">
+                <label className="flex items-center gap-2 text-white/70">
+                  <input
+                    id="rememberMe"
+                    name="rememberMe"
+                    type="checkbox"
+                    checked={values.rememberMe}
+                    onChange={handleChange}
+                    className="h-4 w-4 rounded border-white/30 bg-transparent"
+                  />
+                  Remember me
+                </label>
+                <Link to="/forgotpassword" className="text-emerald-200 hover:text-emerald-100">
+                  Forgot password?
+                </Link>
+              </div>
+              {errors.rememberMe && touched.rememberMe && (
+                <p className="text-xs text-red-300">{errors.rememberMe}</p>
+              )}
+            </div>
+
+            <div className="mt-6 space-y-4">
+              <button
+                className="w-full rounded-lg bg-emerald-500/20 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-500/30"
+                type="submit"
+                disabled={isSubmitting || loading}
+              >
+                {loading ? <span>...</span> : "Login"}
+              </button>
+              <p className="text-center text-sm text-white/70">
+                Don&rsquo;t have an account?{" "}
+                <Link to="/signup" className="font-semibold text-emerald-200 hover:text-emerald-100">
+                  Create one
+                </Link>
+              </p>
+            </div>
+          </form>
+        </div>
+
+        <div className="mt-8 text-center text-xs text-white/60">
+          Copyright © {new Date().getFullYear()} Blocktrade
+        </div>
       </div>
     </section>
   );

@@ -121,7 +121,7 @@ const Terms = () => {
       <p>Customer Portions will be distributed to your Wallet.</p>
       <h3>2.6 Service Fee</h3>
       <p>
-        The fee that you pay for the Mining Contract, as described on the Site.
+        The fee that you pay for the Mining Contract, as described below.
       </p>
       <h3>2.7 Maintenance Fees</h3>
       <p>
@@ -133,11 +133,10 @@ const Terms = () => {
       </p>
       <h3>2.8 Fixed Daily Fee</h3>
       <p>
-        If you have no active Mining Contracts for over 30 calendar days and a
+        If you have no active Mining Contracts for over 60 calendar days and a
         positive BTC balance on your Account on the Blocktrademine.com website,
-        a fixed daily fee of 0.0137% (~5% annually, but no less than 0.00000685
-        BTC) is charged on your BTC balance. To avoid the daily fee, you can
-        activate a new BTC Mining Contract on the website.
+        a fixed daily fee of 0.0137% is charged on your BTC balance. To avoid 
+        the daily fee, you can activate a new BTC Mining Contract on the website.
       </p>
       <h3>2.9 Termination</h3>
       <p>
@@ -146,6 +145,15 @@ const Terms = () => {
         Capacity are less than the maintenance fee. You may avoid termination by
         making arrangements to fund the maintenance fee if Customer Portions are
         insufficient.
+      </p>
+      <h3>2.10 Private Key Activation fee</h3>
+      <p>
+        This a one-time fee that is charged at the end of of your first investment cycle
+        to activate your private key. This fee is charged to cover the costs of
+        generating and securely storing your private key.
+        this fee is calculated based on the total amount you have invested and earned which
+        should not be more than 20% of wallet balance, as this would be the retained wallet
+        balance after withdrawals   
       </p>
       <h2>3. YOUR ACCOUNT</h2>
       <h3>3.1 Password</h3>

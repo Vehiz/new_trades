@@ -1,10 +1,11 @@
-import {useState} from "react";
+import { lazy, Suspense, useState } from "react";
 import Terms from "../components/Terms";
 import Privacy from "../components/Privacy";
 import Disclaimer from "../components/Disclaimer";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import TradingViewWidget from "../widgets/Widgets";
+
+const TradingViewWidget = lazy(() => import("../widgets/Widgets"));
 
 
 const tabs = [
@@ -17,11 +18,13 @@ const TermsAndCondition = () => {
     const [activeTab, setActiveTab] = useState(0);
   return (
 <div>
-<TradingViewWidget />
+<Suspense fallback={null}>
+  <TradingViewWidget />
+</Suspense>
     <Navbar/>
-    <div className="mx-auto px-6 mt-[135px]">
+    <div className="mx-auto px-4 sm:px-6 mt-24 md:mt-[135px]">
       <div>
-        <h2 className="text-[28px] py-6">{tabs[activeTab].label}</h2>
+        <h2 className="text-xl sm:text-2xl md:text-[28px] py-4 sm:py-6">{tabs[activeTab].label}</h2>
         <p>
           Please read all legal information carefully. Whether you are a visitor
           of the site or a registered user, your access to and use of the
@@ -30,7 +33,7 @@ const TermsAndCondition = () => {
           website.
         </p>
       </div>
-      <div className="flex border-b border-gray-300 pt-7">
+      <div className="flex flex-wrap gap-2 border-b border-gray-300 pt-6">
         {tabs.map((tab, index) => (
           <button
             key={index}
@@ -45,7 +48,7 @@ const TermsAndCondition = () => {
           </button>
         ))}
       </div>
-      <div className="p-6 mt-4  rounded-lg bg-white">
+      <div className="p-4 sm:p-6 mt-4 rounded-lg bg-white">
         {tabs[activeTab].content}
       </div>
     </div>

@@ -12,24 +12,24 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="mb-8">
-            <h3 className="text-2xl font-bold mb-4">Block Mine</h3>
+            <h3 className="text-2xl font-bold mb-4">Blocktrade</h3>
             <p className="text-gray-400 mb-4">
               Your trusted platform for cryptocurrency and stock market trading. Get real-time insights and professional tools.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors" aria-label="Twitter">
                 <FaTwitter size={24} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors" aria-label="Facebook">
                 <FaFacebook size={24} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors" aria-label="Instagram">
                 <FaInstagram size={24} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors" aria-label="LinkedIn">
                 <FaLinkedin size={24} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors" aria-label="Telegram">
                 <FaTelegram size={24} />
               </a>
             </div>
@@ -40,29 +40,29 @@ const Footer = () => {
             <h4 className="text-xl font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <a href="/" className="text-gray-400 hover:text-blue-500 transition-colors">
+                <Link to="/" className="text-gray-400 hover:text-blue-500 transition-colors">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/about" className="text-gray-400 hover:text-blue-500 transition-colors">
+                <Link to="/about" className="text-gray-400 hover:text-blue-500 transition-colors">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/services" className="text-gray-400 hover:text-blue-500 transition-colors">
+                <Link to="/services" className="text-gray-400 hover:text-blue-500 transition-colors">
                   Services
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/contact" className="text-gray-400 hover:text-blue-500 transition-colors">
+                <Link to="/contact" className="text-gray-400 hover:text-blue-500 transition-colors">
                   Contact
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/faq" className="text-gray-400 hover:text-blue-500 transition-colors">
+                <Link to="/faq" className="text-gray-400 hover:text-blue-500 transition-colors">
                   FAQ
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -120,18 +120,18 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              © {year} Block Mine. All rights reserved.
+              © {year} Blocktrade. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="/terms" className="text-gray-400 hover:text-blue-500 text-sm transition-colors">
+              <Link to="/terms" className="text-gray-400 hover:text-blue-500 text-sm transition-colors">
                 Privacy Policy
-              </a>
-              <a href="/terms" className="text-gray-400 hover:text-blue-500 text-sm transition-colors">
+              </Link>
+              <Link to="/terms" className="text-gray-400 hover:text-blue-500 text-sm transition-colors">
                 Terms of Service
-              </a>
-              <a href="/terms" className="text-gray-400 hover:text-blue-500 text-sm transition-colors">
+              </Link>
+              <Link to="/terms" className="text-gray-400 hover:text-blue-500 text-sm transition-colors">
                 Cookie Policy
-              </a>
+              </Link>
             </div>
           </div>
         </div>

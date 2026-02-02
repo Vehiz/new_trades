@@ -5,13 +5,13 @@ import { getFirestore } from "firebase/firestore";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDfaVINkwVUCBEYT0xKE_d0Bo2kDY2r8XM",
-  authDomain: "blockmine-ba576.firebaseapp.com",
-  projectId: "blockmine-ba576",
-  storageBucket: "blockmine-ba576.appspot.com",
-  messagingSenderId: "656109139867",
-  appId: "1:656109139867:web:5e93891527e140c3f9933e",
-  measurementId: "G-97MFC8T7FW"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);

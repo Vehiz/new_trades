@@ -1,17 +1,19 @@
+import { Link } from "react-router-dom";
+
 const Services = () => {
   return (
-    <div className="pt-[125px] bg-white">
-      <div className="container mx-auto px-6 py-12">
+    <div className="pt-24 md:pt-[125px] bg-white">
+      <div className="container mx-auto px-4 sm:px-6 py-10 sm:py-12">
         {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold mb-6">Our Services</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        <div className="text-center mb-10 sm:mb-16">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">Our Services</h1>
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
             Comprehensive trading solutions designed to meet your investment needs
           </p>
         </div>
 
         {/* Main Services */}
-        <div className="grid md:grid-cols-3 gap-8 mb-20">
+        <div className="grid md:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-20">
           {[
             {
               title: "Cryptocurrency Trading",
@@ -41,20 +43,20 @@ const Services = () => {
               )
             }
           ].map((service, index) => (
-            <div key={index} className="bg-gray-50 p-8 rounded-lg text-center">
+            <div key={index} className="bg-gray-50 p-6 sm:p-8 rounded-lg text-center">
               <div className="flex justify-center mb-4">
                 {service.icon}
               </div>
-              <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
-              <p className="text-gray-600">{service.description}</p>
+              <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{service.title}</h3>
+              <p className="text-sm sm:text-base text-gray-600">{service.description}</p>
             </div>
           ))}
         </div>
 
         {/* Features */}
-        <div className="mb-20">
-          <h2 className="text-4xl font-bold text-center mb-12">Premium Features</h2>
-          <div className="grid md:grid-cols-2 gap-8">
+        <div className="mb-12 sm:mb-20">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">Premium Features</h2>
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
             {[
               {
                 title: "Real-time Analytics",
@@ -73,15 +75,15 @@ const Services = () => {
                 description: "Manage and track your investments in one place."
               }
             ].map((feature, index) => (
-              <div key={index} className="flex items-start p-6 bg-white rounded-lg shadow-sm">
-                <div className="bg-blue-500 p-2 rounded-full mr-4">
+              <div key={index} className="flex items-start p-4 sm:p-6 bg-white rounded-lg shadow-sm">
+                <div className="bg-blue-500 p-2 rounded-full mr-3 sm:mr-4">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                  <p className="text-gray-600">{feature.description}</p>
+                  <h3 className="text-base sm:text-lg font-bold mb-1 sm:mb-2">{feature.title}</h3>
+                  <p className="text-sm sm:text-base text-gray-600">{feature.description}</p>
                 </div>
               </div>
             ))}
@@ -89,12 +91,12 @@ const Services = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center bg-blue-500 text-white rounded-lg p-12">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Trading?</h2>
-          <p className="mb-8">Join thousands of traders who trust our platform</p>
-          <a href="/login" className="bg-white text-blue-500 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors">
+        <div className="text-center bg-blue-500 text-white rounded-lg p-6 sm:p-10 md:p-12">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">Ready to Start Trading?</h2>
+          <p className="text-sm sm:text-base mb-6 sm:mb-8">Join thousands of traders who trust our platform</p>
+          <Link to="/login" className="bg-white text-blue-500 px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors">
             Get Started Now
-          </a>
+          </Link>
         </div>
       </div>
     </div>

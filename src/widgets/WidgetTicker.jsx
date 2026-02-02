@@ -11,7 +11,6 @@ const TradingViewWidget = () => {
 
       // Check if script already exists
       if (document.getElementById(scriptId)) {
-        console.log("Script already loaded");
         return;
       }
 
@@ -32,10 +31,6 @@ const TradingViewWidget = () => {
         showSymbolLogo: true,
         locale: 'en',
       });
-
-      script.onload = () => {
-        console.log("TradingView script loaded successfully");
-      };
 
       script.onerror = (error) => {
         console.error("Error loading TradingView script:", error);
@@ -58,7 +53,7 @@ const TradingViewWidget = () => {
 
   return (
     <div className="tradingview-widget-container">
-      <div ref={widgetRef} className="mx-[15px] tradingview-widget-container__widget"></div>
+      <div ref={widgetRef} className="tradingview-widget-container__widget"></div>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { FaSignOutAlt } from "react-icons/fa";
 
 
-const SignOut = () => {
+const SignOut = ({ showLabel = true }) => {
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -20,10 +20,17 @@ const SignOut = () => {
   };
 
   return (
-    <button onClick={handleSignOut} className="group flex items-center text-sm lg:text-base gap-4 py-4 px-2 hover:bg-[#3454f5] hover:text-white rounded-md">
-    <FaSignOutAlt className='mr-[20px] text-[16px]'/>
-    <span className="hidden sm:block">Sign Out</span>
-  </button>
+    <button
+      onClick={handleSignOut}
+      className="group mt-6 flex w-full items-center gap-4 rounded-xl border border-gray-200 bg-white px-3 py-3 text-sm lg:text-base font-semibold text-gray-600 shadow-sm transition hover:text-red-600"
+    >
+      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-gray-500 group-hover:text-red-600">
+        <FaSignOutAlt className="text-base" />
+      </span>
+      <span className={`${showLabel ? "hidden sm:block" : "hidden"} leading-none`}>
+        Sign Out
+      </span>
+    </button>
   );
 };
 

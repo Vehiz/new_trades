@@ -12,7 +12,6 @@ import {
   Error,
 } from "./pages/";
 import ForgotPassword from "./components/forgotPassword";
-import PreLoader from "./components/PreLoader";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import TermsAndCondition from "./pages/TermsAndCondition";
 import FAQ from "./pages/FAQ";
@@ -24,6 +23,7 @@ import Contact from './pages/Contact'
 
 const Verification = lazy(() => import('./pages/Verification'));
 const Profile = lazy(() => import('./pages/Profile'));
+const Settings = lazy(() => import('./pages/Settings'));
 const Withdraw = lazy(() => import('./pages/Withdraw'));
 const Transactions = lazy(() => import('./pages/Transactions'));
 
@@ -35,35 +35,19 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <Suspense fallback={<PreLoader />}>
-            <Home />
-          </Suspense>
-        ),
+        element: <Home />,
       },
       {
         path: "about",
-        element: (
-          <Suspense fallback={<PreLoader />}>
-            <About />
-          </Suspense>
-        ),
+        element: <About />,
       },
       {
         path: "services",
-        element: (
-          <Suspense fallback={<PreLoader />}>
-            <Services />
-          </Suspense>
-        ),
+        element: <Services />,
       },
       {
         path: "contact",
-        element: (
-          <Suspense fallback={<PreLoader />}>
-            <Contact />
-          </Suspense>
-        ),
+        element: <Contact />,
       },
       {
         path: "login",
@@ -91,32 +75,20 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: (
-              <Suspense fallback={<PreLoader />}>
-                <Dashboard />
-              </Suspense>
-            ),
+            element: <Dashboard />,
           },
           {
             path: 'dashboard',
-            element: (
-              <Suspense fallback={<PreLoader />}>
-                <Dashboard />
-              </Suspense>
-            ),
+            element: <Dashboard />,
           },
           {
             path: 'deposit',
-            element: (
-              <Suspense fallback={<PreLoader />}>
-                <Deposit />
-              </Suspense>
-            ),
+            element: <Deposit />,
           },
           {
             path: 'verification',
             element: (
-              <Suspense fallback={<PreLoader />}>
+              <Suspense fallback={null}>
                 <Verification />
               </Suspense>
             ),
@@ -124,15 +96,23 @@ const router = createBrowserRouter([
           {
             path: 'profile',
             element: (
-              <Suspense fallback={<PreLoader />}>
+              <Suspense fallback={null}>
                 <Profile />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'settings',
+            element: (
+              <Suspense fallback={null}>
+                <Settings />
               </Suspense>
             ),
           },
           {
             path: 'withdraw',
             element: (
-              <Suspense fallback={<PreLoader />}>
+              <Suspense fallback={null}>
                 <Withdraw />
               </Suspense>
             ),
@@ -140,7 +120,7 @@ const router = createBrowserRouter([
           {
             path: 'transactions',
             element: (
-              <Suspense fallback={<PreLoader />}>
+              <Suspense fallback={null}>
                 <Transactions />
               </Suspense>
             ),

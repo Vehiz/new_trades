@@ -1,12 +1,14 @@
 import CarouselImg1 from "./assets/cauroselImg1.jpeg"
 import CarouselImg2 from "./assets/cauroselImg2.jpeg"
 import CarouselImg3 from "./assets/cauroselImg3.jpeg"
-import { AiOutlineDashboard } from "react-icons/ai";
-import { PiMinusCircle } from "react-icons/pi";
-import { PiPlusCircle } from "react-icons/pi";
-import { CiStar } from "react-icons/ci";
-import { FaUserCircle } from "react-icons/fa";
-import { FaUserCheck } from "react-icons/fa";
+import {
+    HiOutlineViewGrid,
+    HiOutlinePlus,
+    HiOutlineMinus,
+    HiOutlineDocumentText,
+    HiOutlineUserCircle,
+    HiOutlineShieldCheck,
+} from "react-icons/hi";
 
 
 
@@ -38,11 +40,10 @@ export const customers =[
 ]
 
 export const menus = [
-    { name: "Dashboard", icon: <AiOutlineDashboard />, link: "/account/dashboard" },
-    { name: "Deposits", icon: <PiPlusCircle />, link: "/account/deposit" },
-    { name: "Withdraw", icon: <PiMinusCircle />, link: "/account/withdraw" },
-    { name: "Transactions", icon: <CiStar />, link: "/account/transactions" },
-    { name: "Profile", icon: <FaUserCircle />, link: "/account/profile" },
-    { name: "Verification", icon: <FaUserCheck />, link: "/account/verification" },
+    { name: "Dashboard", icon: <HiOutlineViewGrid />, link: "/account/dashboard" },
+    { name: "Deposits", icon: <HiOutlinePlus />, link: "/account/deposit" },
+    { name: "Withdraw", icon: <HiOutlineMinus />, link: "/account/withdraw" },
+    { name: "Transactions", icon: <HiOutlineDocumentText />, link: "/account/transactions" },
+    { name: "Verification", icon: <HiOutlineShieldCheck />, link: "/account/verification" },
     // { name: "SignOut", icon: <FaSignOutAlt />, link: "/account/signOut"},
   ];

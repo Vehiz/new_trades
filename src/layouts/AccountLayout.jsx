@@ -1,13 +1,11 @@
-import {useNavigation, Outlet} from 'react-router-dom'
+import { useNavigation, Outlet } from 'react-router-dom'
 
 const AccountLayout = () => {
-      const navigation = useNavigation()
-console.log(navigation)
-    const isPageLoading = navigation.state === "loading";
-    console.log(isPageLoading, "loading")
+  const navigation = useNavigation()
+  const isPageLoading = navigation.state === "loading";
   return (
     <div>
-        <section className="">
+      <section className="">
         {isPageLoading ? <div className="text-[30px]">loading...</div> : <Outlet />}
       </section>
     </div>

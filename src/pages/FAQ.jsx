@@ -117,18 +117,18 @@ We recommend all our clients to do their own research and their own earning calc
 
   const AccordionItem2 = ({ open, toggle, title, desc }) => {
     return (
-      <div className="border rounded shadow-md pt-[10px]">
+      <div className="border rounded shadow-md pt-2">
         <div
-          className="bg-white py-[25px] px-[50px] flex justify-between items-center cursor-pointer"
+          className="bg-white py-4 sm:py-6 px-4 sm:px-8 flex justify-between items-center cursor-pointer"
           onClick={toggle}
         >
-          <h2 className="text-[blue] text-[20px] font-semibold">{title}</h2>
-          <div className="text-[#1E1E1E] text-[20px] font-semibold">
+          <h2 className="text-blue-600 text-base sm:text-lg font-semibold">{title}</h2>
+          <div className="text-[#1E1E1E] text-base sm:text-lg font-semibold">
             {open ? <IoIosArrowDown /> : <IoIosArrowUp />}
           </div>
         </div>
         <Collapse isOpened={open}>
-          <div className="bg-white pb-[10px] px-[50px] text-[#617686]">
+          <div className="bg-white pb-4 px-4 sm:px-8 text-[#617686] text-sm sm:text-base">
             {desc}
           </div>
         </Collapse>
@@ -146,18 +146,18 @@ We recommend all our clients to do their own research and their own earning calc
     <div>
       <TradingViewWidget />
       <Navbar />
-      <div className="flex items-center justify-center mt-[150px] px-8">
+      <div className="flex items-center justify-center mt-28 md:mt-[150px] px-4 sm:px-8">
         <div>
-          <h2 className="text-[38px] mb-4 text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl mb-3 sm:mb-4 text-center">
             Frequently Asked Questions
           </h2>
-          <p>
+          <p className="text-sm sm:text-base text-center">
             Below are some of the most common questions about BlocktradeMine
           </p>
         </div>
       </div>
-      <div className=" mt-[5%] grid place-items-center mb-10">
-        <div className="grid gap-3 px-[40px] max-w-[800px]">
+      <div className="mt-8 sm:mt-12 grid place-items-center mb-10">
+        <div className="grid gap-3 px-4 sm:px-6 max-w-[800px] w-full">
           {accordionData.map((data, index) => {
             return (
               <AccordionItem2
