@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase-config";
 import MarketView from "../widgets/MarketView";
 import WidgetTicker from "../widgets/WidgetTicker";
@@ -154,25 +154,44 @@ const Dashboard = () => {
           updated = true;
           const logId = `${rule.id}-${rule.startAt}-completed`;
           const snapshotPrice = getLivePriceForPair(`${rule.symbol}/USDT`) || "-";
-          setTradeHistory((prev) =>
-            prev.some((item) => item.id === logId)
-              ? prev
-              : [
-                  ...prev,
-                  {
-                    id: logId,
-                    date: new Date().toISOString(),
-                    pair: `${rule.symbol}/USDT`,
-                    side: "Auto",
-                    type: "Auto Trade",
-                    amount: `$${rule.tradeAmount}`,
-                    price: snapshotPrice,
-                    fee: "-",
-                    status: "Completed",
-                    pnl: "-",
-                  },
-                ]
-          );
+          const winPercent = 50 + Math.random() * 150;
+          const profitGain = (rule.tradeAmount * winPercent) / 100;
+          let didLog = false;
+          setTradeHistory((prev) => {
+            if (prev.some((item) => item.id === logId)) return prev;
+            didLog = true;
+            return [
+              ...prev,
+              {
+                id: logId,
+                date: new Date().toISOString(),
+                pair: `${rule.symbol}/USDT`,
+                side: "Auto",
+                type: "Auto Trade",
+                amount: `$${rule.tradeAmount}`,
+                price: snapshotPrice,
+                fee: "-",
+                status: "Completed",
+                pnl: `+$${profitGain.toFixed(2)}`,
+              },
+            ];
+          });
+
+          if (didLog) {
+            const currentProfit = (() => {
+              const parsed = parseFloat(user?.profit ?? 0);
+              return Number.isNaN(parsed) ? 0 : parsed;
+            })();
+            const nextProfit = currentProfit + profitGain;
+            setUser((prev) => (prev ? { ...prev, profit: nextProfit } : prev));
+            if (auth.currentUser?.email) {
+              updateDoc(doc(db, "Users", auth.currentUser.email), {
+                profit: nextProfit,
+              }).catch((error) => {
+                console.error("Failed to update profit", error);
+              });
+            }
+          }
 
           return { ...rule, enabled: false, startAt: null };
         });
