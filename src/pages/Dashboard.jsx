@@ -536,6 +536,7 @@ const Dashboard = () => {
             <AutoTradingConfig
               rules={autoTradingRules}
               onUpdateRule={handleUpdateRule}
+              availableBalance={total}
             />
           </div>
         )}

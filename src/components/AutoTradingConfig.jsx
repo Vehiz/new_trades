@@ -13,9 +13,12 @@ import {
 } from "react-icons/hi";
 import { FaSnowflake } from "react-icons/fa";
 
-const AutoTradingConfig = ({ rules, onUpdateRule }) => {
+const AutoTradingConfig = ({ rules, onUpdateRule, availableBalance }) => {
   const [now, setNow] = useState(Date.now());
   const [expandedRuleId, setExpandedRuleId] = useState(null);
+  const sanitizedAvailableBalance = Number.isFinite(availableBalance)
+    ? Math.max(0, availableBalance)
+    : 0;
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -34,7 +37,13 @@ const AutoTradingConfig = ({ rules, onUpdateRule }) => {
 
   const handleInputChange = (ruleId, field, value) => {
     const numericValue = typeof value === "number" ? value : Number(value);
-    onUpdateRule(ruleId, { [field]: Number.isNaN(numericValue) ? 0 : numericValue });
+    const safeValue = Number.isNaN(numericValue) ? 0 : numericValue;
+    if (field === "tradeAmount") {
+      const clamped = Math.min(Math.max(0, safeValue), sanitizedAvailableBalance);
+      onUpdateRule(ruleId, { [field]: clamped });
+      return;
+    }
+    onUpdateRule(ruleId, { [field]: safeValue });
   };
 
   const handleEditRule = (ruleId) => {
@@ -153,6 +162,8 @@ const AutoTradingConfig = ({ rules, onUpdateRule }) => {
         <div className="space-y-6 p-4 sm:p-6">
           {rules.map((rule) => {
             const isExpanded = rule.enabled || expandedRuleId === rule.id;
+            const isTradeAmountOverBalance = rule.tradeAmount > sanitizedAvailableBalance;
+            const canEnableTrade = rule.tradeAmount > 0 && !isTradeAmountOverBalance;
             return (
             <div
               key={rule.id}
@@ -216,11 +227,20 @@ const AutoTradingConfig = ({ rules, onUpdateRule }) => {
                   </span>
                   <button
                     type="button"
-                    onClick={() => handleToggle(rule.id, !rule.enabled)}
+                    onClick={() => {
+                      if (!rule.enabled && !canEnableTrade) return;
+                      handleToggle(rule.id, !rule.enabled);
+                    }}
                     className={`relative h-6 w-11 rounded-full transition ${
-                      rule.enabled ? "bg-green-600" : "bg-gray-300"
+                      rule.enabled
+                        ? "bg-green-600"
+                        : canEnableTrade
+                        ? "bg-gray-300"
+                        : "cursor-not-allowed bg-gray-200"
                     }`}
                     aria-pressed={rule.enabled}
+                    aria-disabled={!rule.enabled && !canEnableTrade}
+                    disabled={!rule.enabled && !canEnableTrade}
                   >
                     <span
                       className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition ${
@@ -288,8 +308,16 @@ const AutoTradingConfig = ({ rules, onUpdateRule }) => {
                       </div>
                       <button
                         type="button"
-                        onClick={() => handleToggle(rule.id, true)}
-                        className="rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-700"
+                        onClick={() => {
+                          if (!canEnableTrade) return;
+                          handleToggle(rule.id, true);
+                        }}
+                        className={`rounded-lg px-3 py-2 text-xs font-semibold text-white transition ${
+                          canEnableTrade
+                            ? "bg-emerald-600 hover:bg-emerald-700"
+                            : "cursor-not-allowed bg-gray-300"
+                        }`}
+                        disabled={!canEnableTrade}
                       >
                         Enable Trade
                       </button>
@@ -370,7 +398,14 @@ const AutoTradingConfig = ({ rules, onUpdateRule }) => {
                             }
                             className="w-full rounded-lg border-2 border-gray-200 px-3 py-2 text-sm"
                           />
-                          <p className="text-xs text-gray-500">Amount per trade in USD</p>
+                          <p className="text-xs text-gray-500">
+                            Available balance: ${sanitizedAvailableBalance.toFixed(2)}
+                          </p>
+                          {isTradeAmountOverBalance && (
+                            <p className="text-xs font-semibold text-red-600">
+                              Trade amount exceeds available balance.
+                            </p>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -597,6 +632,7 @@ AutoTradingConfig.propTypes = {
     })
   ).isRequired,
   onUpdateRule: PropTypes.func.isRequired,
+  availableBalance: PropTypes.number,
 };
 
 export default AutoTradingConfig;
