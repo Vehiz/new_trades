@@ -74,8 +74,8 @@ const Transactions = () => {
   return (
     <section className="bg-[#f4f7fe] min-h-screen flex flex-col px-4 sm:px-6 py-4 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <div className="flex-1">
-        <div className="bg-[#fff] my-6 rounded-lg shadow-outline-white shadow-md border dark:border-slate-800 dark:bg-slate-900">
-          <div className="w-full text-base sm:text-lg leading-6 sm:leading-7 px-4 sm:px-6 py-2 sm:py-3 font-semibold">
+        <div className="bg-[#fff] my-6 rounded-2xl shadow-outline-white shadow-md border dark:border-slate-800 dark:bg-slate-900">
+          <div className="w-full text-base sm:text-lg leading-6 sm:leading-7 px-4 sm:px-6 py-3 font-semibold">
             <h4>Transactions</h4>
           </div>
           <div className="px-4 sm:px-6">
@@ -134,54 +134,67 @@ const Transactions = () => {
                 </label>
               </div>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
+            <div className="overflow-x-auto rounded-2xl border border-gray-100 dark:border-slate-800">
+              <table className="w-full text-left text-xs sm:text-sm">
                 <thead>
-                  <tr className="text-[#9ca3af] border-b-[1px] border-[#e4e6ef] dark:border-slate-800 dark:text-slate-500">
-                    <th className="py-2 sm:py-3 text-xs sm:text-sm font-normal">
+                  <tr className="bg-gray-50 text-[#9ca3af] dark:bg-slate-950 dark:text-slate-500">
+                    <th className="py-3 px-3 font-semibold uppercase tracking-wide">
                       Transaction ID
                     </th>
-                    <th className="py-2 sm:py-3 text-xs sm:text-sm font-normal">
+                    <th className="py-3 px-3 font-semibold uppercase tracking-wide">
                       Amount
                     </th>
-                    <th className="py-2 sm:py-3 text-xs sm:text-sm font-normal">
+                    <th className="py-3 px-3 font-semibold uppercase tracking-wide">
                       Date
                     </th>
-                    <th className="py-2 sm:py-3 text-xs sm:text-sm font-normal">
+                    <th className="py-3 px-3 font-semibold uppercase tracking-wide">
                       Type
                     </th>
-                    <th className="py-2 sm:py-3 text-xs sm:text-sm font-normal">
+                    <th className="py-3 px-3 font-semibold uppercase tracking-wide">
                       Method
                     </th>
-                    <th className="py-2 sm:py-3 text-xs sm:text-sm font-normal">
+                    <th className="py-3 px-3 font-semibold uppercase tracking-wide">
                       Status
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredTransactions.length > 0 ? (
-                    filteredTransactions.map((transaction) => (
+                    filteredTransactions.map((transaction, index) => (
                       <tr
                         key={`${transaction.type}-${transaction.id}`}
-                        className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 dark:bg-slate-900 dark:border-slate-800 dark:hover:bg-slate-800"
+                        className={`border-b transition duration-300 ease-in-out hover:bg-gray-50 dark:border-slate-800 dark:hover:bg-slate-800 ${
+                          index % 2 === 0 ? "bg-white" : "bg-gray-50/60"
+                        } dark:bg-slate-900`}
                       >
-                        <td className="py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm">
+                        <td className="py-3 px-3">
                           {transaction.id}
                         </td>
-                        <td className="py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm">
+                        <td className="py-3 px-3 font-semibold text-slate-800 dark:text-slate-100">
                           {transaction.amount}
                         </td>
-                        <td className="py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">
+                        <td className="py-3 px-3 whitespace-nowrap">
                           {transaction.date}
                         </td>
-                        <td className="py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm">
+                        <td className="py-3 px-3">
                           {transaction.type}
                         </td>
-                        <td className="py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm">
+                        <td className="py-3 px-3">
                           {transaction.method}
                         </td>
-                        <td className="py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm">
-                          {transaction.status}
+                        <td className="py-3 px-3">
+                          <span
+                            className={`rounded-full px-2 py-1 text-xs font-semibold ${
+                              transaction.status === "Approved" ||
+                              transaction.status === "Completed"
+                                ? "bg-emerald-100 text-emerald-700"
+                                : transaction.status === "Cancelled"
+                                ? "bg-red-100 text-red-700"
+                                : "bg-yellow-100 text-yellow-700"
+                            }`}
+                          >
+                            {transaction.status}
+                          </span>
                         </td>
                       </tr>
                     ))

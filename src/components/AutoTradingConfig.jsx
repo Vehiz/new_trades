@@ -15,6 +15,7 @@ import { FaSnowflake } from "react-icons/fa";
 
 const AutoTradingConfig = ({ rules, onUpdateRule }) => {
   const [now, setNow] = useState(Date.now());
+  const [expandedRuleId, setExpandedRuleId] = useState(null);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -150,7 +151,9 @@ const AutoTradingConfig = ({ rules, onUpdateRule }) => {
           </div>
         </div>
         <div className="space-y-6 p-4 sm:p-6">
-          {rules.map((rule) => (
+          {rules.map((rule) => {
+            const isExpanded = rule.enabled || expandedRuleId === rule.id;
+            return (
             <div
               key={rule.id}
               className={`rounded-2xl border-2 p-4 sm:p-6 transition-all ${
@@ -195,6 +198,19 @@ const AutoTradingConfig = ({ rules, onUpdateRule }) => {
                 </div>
 
                 <div className="flex items-center gap-3">
+                  {!rule.enabled && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setExpandedRuleId((prev) =>
+                          prev === rule.id ? null : rule.id
+                        )
+                      }
+                      className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                    >
+                      {isExpanded ? "Collapse" : "Configure"}
+                    </button>
+                  )}
                   <span className="text-sm font-semibold text-gray-700">
                     {rule.enabled ? "Enabled" : "Disabled"}
                   </span>
@@ -215,9 +231,10 @@ const AutoTradingConfig = ({ rules, onUpdateRule }) => {
                 </div>
               </div>
 
-              {rule.enabled && (
+              {isExpanded && (
                 <>
-                  {(() => {
+                {rule.enabled ? (
+                  (() => {
                     const totalMs = rule.timelineDays * 24 * 60 * 60 * 1000;
                     const startAt = rule.startAt ? new Date(rule.startAt).getTime() : now;
                     const remainingMs = Math.max(0, totalMs - (now - startAt));
@@ -235,7 +252,7 @@ const AutoTradingConfig = ({ rules, onUpdateRule }) => {
                               Timeline: {rule.timelineDays} days. Remaining: {isComplete ? "Completed" : countdown}
                             </p>
                             <p className="text-[11px] text-amber-600">
-                              You can only edit or cancel this trade.
+                              You can edit parameters anytime. Countdown starts only after enabling.
                             </p>
                           </div>
                           <div className="flex flex-wrap gap-2">
@@ -257,9 +274,30 @@ const AutoTradingConfig = ({ rules, onUpdateRule }) => {
                         </div>
                       </div>
                     );
-                  })()}
-                  <div className="my-6 h-px w-full bg-gray-100" />
-                  <div className="space-y-6">
+                  })()
+                ) : (
+                  <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-semibold text-slate-800">
+                          Configure your trade first
+                        </p>
+                        <p className="text-xs text-slate-600">
+                          Set thresholds, timeline, and protection. The countdown starts when you enable trading.
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleToggle(rule.id, true)}
+                        className="rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-700"
+                      >
+                        Enable Trade
+                      </button>
+                    </div>
+                  </div>
+                )}
+                <div className="my-6 h-px w-full bg-gray-100" />
+                <div className="space-y-6">
                     <div>
                       <h5 className="mb-4 flex items-center gap-2 text-sm font-semibold text-gray-700">
                         <HiOutlineTrendingDown className="h-4 w-4 text-green-600" />
@@ -493,7 +531,8 @@ const AutoTradingConfig = ({ rules, onUpdateRule }) => {
                 </>
               )}
             </div>
-          ))}
+          );
+          })}
         </div>
       </div>
 

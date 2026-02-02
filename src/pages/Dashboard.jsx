@@ -10,7 +10,7 @@ import { fetchDeposits, fetchWithdrawals } from "../services/transactions";
 
 const Dashboard = () => {
   const total = parseFloat(sessionStorage.getItem("totalAmount")) || 0;
-  const [user, setUser] = useState(null); // Initialize as null
+  const [user, setUser] = useState(null);
   const [totalSum, setTotalSum] = useState(0);
   const [depositTotal, setDepositTotal] = useState(0);
   const [activeTab, setActiveTab] = useState("market");
@@ -18,11 +18,12 @@ const Dashboard = () => {
   const [transactionsLoading, setTransactionsLoading] = useState(false);
   const [transactionFilter, setTransactionFilter] = useState("all");
   const [tradeHistory, setTradeHistory] = useState([]);
+  const [priceMap, setPriceMap] = useState({});
   const [autoTradingRules, setAutoTradingRules] = useState([
     {
       id: "rule-btc",
       symbol: "BTC",
-      enabled: true,
+      enabled: false,
       buyThreshold: 2.0,
       sellThreshold: 3.0,
       tradeAmount: 500,
@@ -43,7 +44,7 @@ const Dashboard = () => {
       freezeThreshold: 5.0,
       unfreezeMargin: 3.0,
       timelineDays: 3,
-      startAt: null,
+      startAt: new Date().toISOString(),
     },
     {
       id: "rule-bnb",
@@ -52,18 +53,21 @@ const Dashboard = () => {
       buyThreshold: 2.0,
       sellThreshold: 3.0,
       tradeAmount: 300,
-      freezeOnDrop: false,
+      freezeOnDrop: true,
       freezeThreshold: 5.0,
       unfreezeMargin: 3.0,
       timelineDays: 3,
-      startAt: null,
+      startAt: new Date().toISOString(),
     },
   ]);
 
-  const profit = parseFloat(user?.profit) || 0;
-  const portfolioValue = depositTotal;
-  const sum = total + profit; // Calculate the sum
-  const dashMessage = user?.dashboardMessage;
+  const profit = (() => {
+    const parsed = parseFloat(user?.profit ?? 0);
+    return Number.isNaN(parsed) ? 0 : parsed;
+  })();
+  const sum = depositTotal + profit;
+  const portfolioValue = 0;
+  const dashMessage = "";
 
   const tradeStats = useMemo(() => {
     const totalTrades = tradeHistory.length;
@@ -92,6 +96,19 @@ const Dashboard = () => {
       feesPaid,
     };
   }, [tradeHistory]);
+
+  const formatDateTime = (value) => {
+    if (!value) return "";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    return date.toLocaleString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
 
   const activeTrades = useMemo(
     () => tradeHistory.filter((trade) => trade.status === "Open"),
@@ -136,6 +153,7 @@ const Dashboard = () => {
 
           updated = true;
           const logId = `${rule.id}-${rule.startAt}-completed`;
+          const snapshotPrice = getLivePriceForPair(`${rule.symbol}/USDT`) || "-";
           setTradeHistory((prev) =>
             prev.some((item) => item.id === logId)
               ? prev
@@ -143,12 +161,12 @@ const Dashboard = () => {
                   ...prev,
                   {
                     id: logId,
-                    date: new Date().toISOString().split("T")[0],
+                    date: new Date().toISOString(),
                     pair: `${rule.symbol}/USDT`,
                     side: "Auto",
                     type: "Auto Trade",
                     amount: `$${rule.tradeAmount}`,
-                    price: "-",
+                    price: snapshotPrice,
                     fee: "-",
                     status: "Completed",
                     pnl: "-",
@@ -165,6 +183,46 @@ const Dashboard = () => {
 
     return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchPrices = async () => {
+      try {
+        const response = await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin&vs_currencies=usd"
+        );
+        const data = await response.json();
+        if (!isMounted) return;
+        setPriceMap({
+          BTC: data?.bitcoin?.usd ?? null,
+          ETH: data?.ethereum?.usd ?? null,
+          BNB: data?.binancecoin?.usd ?? null,
+        });
+      } catch (error) {
+        console.error("Failed to fetch prices", error);
+      }
+    };
+
+    fetchPrices();
+    const intervalId = setInterval(fetchPrices, 30000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  const getLivePriceForPair = (pair) => {
+    if (!pair) return null;
+    const symbol = pair.split("/")[0];
+    const price = priceMap[symbol];
+    if (!price) return null;
+    return `$${price.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  };
 
   const handleUpdateRule = (ruleId, updates) => {
     setAutoTradingRules((currentRules) =>
@@ -185,6 +243,7 @@ const Dashboard = () => {
 
         if (isCancelling) {
           const logId = `${rule.id}-${rule.startAt || Date.now()}-cancelled`;
+          const snapshotPrice = getLivePriceForPair(`${rule.symbol}/USDT`) || "-";
           setTradeHistory((prev) =>
             prev.some((item) => item.id === logId)
               ? prev
@@ -192,12 +251,12 @@ const Dashboard = () => {
                   ...prev,
                   {
                     id: logId,
-                    date: new Date().toISOString().split("T")[0],
+                    date: new Date().toISOString(),
                     pair: `${rule.symbol}/USDT`,
                     side: "Auto",
                     type: "Auto Trade",
                     amount: `$${rule.tradeAmount}`,
-                    price: "-",
+                    price: snapshotPrice,
                     fee: "-",
                     status: "Cancelled",
                     pnl: "-",
@@ -344,9 +403,9 @@ const Dashboard = () => {
             <div>
               <p className="text-xs sm:text-sm font-semibold text-purple-600">Portfolio Value</p>
               <h3 className="mt-2 text-lg sm:text-2xl font-semibold text-purple-700">
-                ${portfolioValue.toFixed(2)}
+                ${depositTotal.toFixed(2)}
               </h3>
-              <p className="text-xs text-purple-500">0 assets</p>
+              <p className="text-xs text-purple-500">Total deposits</p>
             </div>
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-100 text-purple-600">
               ▮▮
@@ -558,35 +617,36 @@ const Dashboard = () => {
                     Latest executions and order activity
                   </p>
                 </div>
-                <span className="text-xs text-gray-400 dark:text-slate-500">Dummy data</span>
               </div>
 
-              <div className="mt-4 overflow-x-auto">
-                <table className="w-full text-left">
-                  <thead>
-                    <tr className="text-[#9ca3af] border-b-[1px] border-[#e4e6ef] dark:border-slate-800 dark:text-slate-500">
-                      <th className="py-2 text-xs sm:text-sm font-normal">Date</th>
-                      <th className="py-2 text-xs sm:text-sm font-normal">Pair</th>
-                      <th className="py-2 text-xs sm:text-sm font-normal">Side</th>
-                      <th className="py-2 text-xs sm:text-sm font-normal">Type</th>
-                      <th className="py-2 text-xs sm:text-sm font-normal">Amount</th>
-                      <th className="py-2 text-xs sm:text-sm font-normal">Price</th>
-                      <th className="py-2 text-xs sm:text-sm font-normal">Fee</th>
-                      <th className="py-2 text-xs sm:text-sm font-normal">Status</th>
-                      <th className="py-2 text-xs sm:text-sm font-normal">P&L</th>
+              <div className="mt-4 overflow-x-auto rounded-2xl border border-gray-100 dark:border-slate-800">
+                <table className="w-full text-left text-xs sm:text-sm">
+                  <thead className="bg-gray-50 dark:bg-slate-950">
+                    <tr className="text-[#9ca3af] dark:text-slate-500">
+                      <th className="py-3 px-3 font-semibold uppercase tracking-wide">Date</th>
+                      <th className="py-3 px-3 font-semibold uppercase tracking-wide">Pair</th>
+                      <th className="py-3 px-3 font-semibold uppercase tracking-wide">Side</th>
+                      <th className="py-3 px-3 font-semibold uppercase tracking-wide">Type</th>
+                      <th className="py-3 px-3 font-semibold uppercase tracking-wide">Amount</th>
+                      <th className="py-3 px-3 font-semibold uppercase tracking-wide">Price</th>
+                      <th className="py-3 px-3 font-semibold uppercase tracking-wide">Fee</th>
+                      <th className="py-3 px-3 font-semibold uppercase tracking-wide">Status</th>
+                      <th className="py-3 px-3 font-semibold uppercase tracking-wide">P&L</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {tradeHistory.map((trade) => (
+                    {tradeHistory.map((trade, index) => (
                       <tr
                         key={trade.id}
-                        className="border-b border-gray-100 text-sm text-gray-600"
+                        className={`border-b border-gray-100 text-gray-700 transition hover:bg-gray-50 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800 ${
+                          index % 2 === 0 ? "bg-white" : "bg-gray-50/50"
+                        } dark:bg-slate-900`}
                       >
-                        <td className="py-3 whitespace-nowrap">{trade.date}</td>
-                        <td className="py-3 font-semibold text-gray-800">
+                        <td className="py-3 px-3 whitespace-nowrap">{formatDateTime(trade.date)}</td>
+                        <td className="py-3 px-3 font-semibold text-gray-800 dark:text-slate-100">
                           {trade.pair}
                         </td>
-                        <td className="py-3">
+                        <td className="py-3 px-3">
                           <span
                             className={`rounded-full px-2 py-1 text-xs font-semibold ${
                               trade.side === "Buy"
@@ -599,11 +659,15 @@ const Dashboard = () => {
                             {trade.side}
                           </span>
                         </td>
-                        <td className="py-3">{trade.type}</td>
-                        <td className="py-3">{trade.amount}</td>
-                        <td className="py-3">{trade.price}</td>
-                        <td className="py-3">{trade.fee}</td>
-                        <td className="py-3">
+                        <td className="py-3 px-3">{trade.type}</td>
+                        <td className="py-3 px-3">{trade.amount}</td>
+                        <td className="py-3 px-3">
+                          {trade.price && trade.price !== "-"
+                            ? trade.price
+                            : getLivePriceForPair(trade.pair) || "-"}
+                        </td>
+                        <td className="py-3 px-3">{trade.fee}</td>
+                        <td className="py-3 px-3">
                           <span
                             className={`rounded-full px-2 py-1 text-xs font-semibold ${
                               trade.status === "Completed"
@@ -617,7 +681,7 @@ const Dashboard = () => {
                           </span>
                         </td>
                         <td
-                          className={`py-3 font-semibold ${
+                          className={`py-3 px-3 font-semibold ${
                             trade.pnl.startsWith("+")
                               ? "text-emerald-600"
                               : trade.pnl.startsWith("-")
@@ -658,7 +722,7 @@ const Dashboard = () => {
                     <tbody>
                       {activeTrades.map((trade) => (
                         <tr key={trade.id} className="border-b border-blue-100 text-sm text-blue-900">
-                          <td className="py-3 whitespace-nowrap">{trade.date}</td>
+                          <td className="py-3 whitespace-nowrap">{formatDateTime(trade.date)}</td>
                           <td className="py-3 font-semibold">{trade.pair}</td>
                           <td className="py-3">{trade.side}</td>
                           <td className="py-3">{trade.type}</td>
@@ -701,7 +765,7 @@ const Dashboard = () => {
                     <tbody>
                       {completedTrades.map((trade) => (
                         <tr key={trade.id} className="border-b border-emerald-100 text-sm text-emerald-900">
-                          <td className="py-3 whitespace-nowrap">{trade.date}</td>
+                          <td className="py-3 whitespace-nowrap">{formatDateTime(trade.date)}</td>
                           <td className="py-3 font-semibold">{trade.pair}</td>
                           <td className="py-3">{trade.side}</td>
                           <td className="py-3">{trade.type}</td>
