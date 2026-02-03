@@ -382,7 +382,7 @@ export const privacyContent = (
       <br />
       <br />
       <ul>
-        <li>By email: support@Blocktrademine.com</li>
+        <li>By email: support@BlockTradeMine.com</li>
       </ul>
     </div>
   </div>

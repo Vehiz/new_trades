@@ -17,8 +17,8 @@ const FAQ = () => {
   };
   const accordionData = [
     {
-      title: "What is Blocktrademine?",
-      desc: "Blocktrademine offers cryptocurrency mining without having to buy any equipment. Instead of it you are buying mining hashpower from our industrial mining equipment supplier BitFury with its data centers located in Canada, Norway, Iceland, and Georgia. Blocktrademine was created to ensure the effective mining and to provide professionals and newcomers with an access to the same quality resources as the industrial miners possess. Our cooperation with the industry leaders and access to the newest and most advanced technologies in the industry, quickly made us one of the world‘s leading mining services.",
+      title: "What is BlockTradeMine?",
+      desc: "BlockTradeMine offers cryptocurrency mining without having to buy any equipment. Instead of it you are buying mining hashpower from our industrial mining equipment supplier BitFury with its data centers located in Canada, Norway, Iceland, and Georgia. BlockTradeMine was created to ensure the effective mining and to provide professionals and newcomers with an access to the same quality resources as the industrial miners possess. Our cooperation with the industry leaders and access to the newest and most advanced technologies in the industry, quickly made us one of the world‘s leading mining services.",
     },
     {
       title: "How does cryptocurrency mining work on your platform?",
@@ -109,7 +109,7 @@ The rule of thumb is that a higher BTC price means lower maintenance fees and hi
 We recommend all our clients to do their own research and their own earning calculation, however, we have some helpful tools for this. You can go to the “Calculator” tab which is on the top of our website to see how you can calculate your earnings.`,
     },
     {
-      title: "How to close my user account at Blocktrademine?",
+      title: "How to close my user account at BlockTradeMine?",
       desc: `If you want to close your user account at Hashing24, please send us an email to support@hashing24.com specifying your request. 
       Your application for user account closing will be reviewed as soon as possible and all your personal data associated with your user account at Hashing24 will be deleted within 24 hours.`,
     },
@@ -152,7 +152,7 @@ We recommend all our clients to do their own research and their own earning calc
             Frequently Asked Questions
           </h2>
           <p className="text-sm sm:text-base text-center">
-            Below are some of the most common questions about BlocktradeMine
+            Below are some of the most common questions about BlockTradeMine
           </p>
         </div>
       </div>

@@ -128,7 +128,7 @@ const Account = () => {
               <img src={Logo} alt="logo" className="h-10 w-auto" />
               <div className="leading-none">
                 <span className="text-base sm:text-lg italic">B</span>lock
-                <span className="italic text-gray-400">Mine</span>
+                <span className="italic text-gray-400">Trade</span>
               </div>
             </Link>
             <p className="text-xs text-gray-500">Trading Platform</p>
@@ -212,7 +212,7 @@ const Account = () => {
         <div className="mt-auto pb-4 -mx-4 border-t border-gray-100 bg-[#f6f7ff] px-4 pt-4">
           <SignOut showLabel={open} />
           <p className={`mt-6 text-center text-xs text-gray-400 ${open ? "block" : "hidden"}`}>
-            © {new Date().getFullYear()} Blocktrade
+            © {new Date().getFullYear()} BlockTrade
           </p>
         </div>
       </div>
@@ -222,7 +222,7 @@ const Account = () => {
       >
         <header className="sticky top-0 z-20 w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-100 dark:border-slate-800">
           <div className="flex items-center justify-between px-4 sm:px-6 py-3">
-            <div className="text-sm font-semibold text-[#3b47ff] dark:text-emerald-300">Blocktrade</div>
+            <div className="text-sm font-semibold text-[#3b47ff] dark:text-emerald-300">BlockTrade</div>
             <div className="flex items-center gap-3">
               <button
                 type="button"

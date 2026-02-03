@@ -293,7 +293,7 @@ if(loading){
         </div>
 
         <div className="mt-8 text-center text-xs text-white/60">
-          Copyright © {new Date().getFullYear()} Blocktrade
+          Copyright © {new Date().getFullYear()} BlockTrade
         </div>
       </div>
     </section>

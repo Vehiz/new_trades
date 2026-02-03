@@ -1,6 +1,7 @@
 // import React from 'react'
 import { FaTwitter, FaFacebook, FaInstagram, FaLinkedin, FaTelegram } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import Logo from '../assets/logoNew.png';
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -12,7 +13,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="mb-8">
-            <h3 className="text-2xl font-bold mb-4">Blocktrade</h3>
+            <Link to="/" className="mb-4 inline-flex items-center gap-3">
+              <img src={Logo} alt="logo" className="h-10 w-auto" />
+              <div className="leading-none text-white">
+                <span className="text-2xl italic">B</span>lock
+                <span className="italic text-gray-300">Trade</span>
+              </div>
+            </Link>
             <p className="text-gray-400 mb-4">
               Your trusted platform for cryptocurrency and stock market trading. Get real-time insights and professional tools.
             </p>
@@ -120,7 +127,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              © {year} Blocktrade. All rights reserved.
+              © {year} BlockTrade. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link to="/terms" className="text-gray-400 hover:text-blue-500 text-sm transition-colors">

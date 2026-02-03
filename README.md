@@ -1,4 +1,4 @@
-# Block Mine Trading App
+# BlockTrade Trading App
 
 React + Vite application for a crypto and trading platform. Includes authentication, account dashboard, deposits, withdrawals, and legal pages.
 

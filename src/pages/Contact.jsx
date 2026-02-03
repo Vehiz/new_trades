@@ -101,7 +101,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold">Email</h4>
-                  <p className="text-sm sm:text-base text-gray-600">support@Blocktrademine.com</p>
+                  <p className="text-sm sm:text-base text-gray-600">support@BlockTradeMine.com</p>
                 </div>
               </div>
 

@@ -6,7 +6,7 @@ const About = () => {
       <div className="container mx-auto px-4 sm:px-6 py-10 sm:py-12">
         {/* Hero Section */}
         <div className="text-center mb-10 sm:mb-16">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">About Blocktrade</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">About BlockTrade</h1>
           <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
             Your trusted partner in the world of trading and investments. We provide cutting-edge tools and insights for traders of all levels.
           </p>
@@ -30,7 +30,7 @@ const About = () => {
 
         {/* Why Choose Us */}
         <div className="mb-12 sm:mb-20">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">Why Choose Blocktrade</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">Why Choose BlockTrade</h2>
           <div className="grid md:grid-cols-3 gap-6 sm:gap-8">
             <div className="text-center p-4 sm:p-6">
               <div className="bg-blue-500 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-4">

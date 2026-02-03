@@ -58,7 +58,7 @@ export const termsContent = (
     <h2>1. INFORMATION ABOUT US</h2>
     <p>
       <strong>1.1</strong> We operate the site{" "}
-      <a href="https://blocktrademine.com">Blocktrademine.com</a>. For
+      <a href="https://blocktrademine.com">BlockTradeMine.com</a>. For
       assistance, please visit our customer support page.
     </p>
     <h2>2. OUR SERVICES</h2>
@@ -87,7 +87,7 @@ export const termsContent = (
     <p>
       <strong>b.</strong> The available types of Mining Contracts, including
       their terms and conditions, are described in detail on{" "}
-      <a href="https://blocktrademine.com">Blocktrademine.com</a>. Please note
+      <a href="https://blocktrademine.com">BlockTradeMine.com</a>. Please note
       that a Mining Contract purchase is required to access the Services and
       any resulting product rights.
     </p>
@@ -173,11 +173,11 @@ export const termsContent = (
     </p>
     <h3>5.1.1. Restrictions. </h3>
     <p>
-      Due to the regulatory restrictions, Blocktrademine.com Services are not
+      Due to the regulatory restrictions, BlockTradeMine.com Services are not
       available to the US residents. If you are a US resident, please do not
       access the Site. If you have any question regarding the use of the Site
       or Services, please contact our customer support service at
-      support@Blocktrademine.com. You should carefully read these terms and
+      support@BlockTradeMine.com. You should carefully read these terms and
       conditions before using the Services because by using the Services
       and/or visiting the Site, you agree to be bound by these terms and
       conditions and the applicable Agreement.

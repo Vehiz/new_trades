@@ -362,7 +362,7 @@ const Dashboard = () => {
       <div className="w-full bg-transparent text-white py-2 overflow-hidden">
         {total === 0.0 ? (
           <div className="text-green-300 text-xs sm:text-sm whitespace-nowrap animate-marquee">
-            🚀 Welcome to the Blocktrade! We are happy to have you onboard as
+            🚀 Welcome to the BlockTrade! We are happy to have you onboard as
             you enjoy a seamless and well secured cloud mining experience.
             Thank you. 🔥
           </div>
