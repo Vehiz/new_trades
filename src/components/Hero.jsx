@@ -1,9 +1,48 @@
-// import React from "react";
+import { useEffect, useState } from "react";
 import mobilePhoto from "../assets/mobile-hero1.png";
 import jiggy_home from "../assets/jiggy_home.jpeg";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
+  const [prices, setPrices] = useState({ BTC: null, ETH: null, SOL: null });
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchPrices = async () => {
+      try {
+        const response = await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd"
+        );
+        const data = await response.json();
+        if (!isMounted) return;
+        setPrices({
+          BTC: data?.bitcoin?.usd ?? null,
+          ETH: data?.ethereum?.usd ?? null,
+          SOL: data?.solana?.usd ?? null,
+        });
+      } catch (error) {
+        console.error("Failed to fetch hero prices", error);
+      }
+    };
+
+    fetchPrices();
+    const intervalId = setInterval(fetchPrices, 30000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  const formatPrice = (value, options = {}) => {
+    if (value === null || value === undefined) return "--";
+    return value.toLocaleString(undefined, {
+      minimumFractionDigits: options.minimumFractionDigits ?? 0,
+      maximumFractionDigits: options.maximumFractionDigits ?? 0,
+    });
+  };
+
   return (
     <section
       className="relative w-full overflow-hidden"
@@ -33,16 +72,18 @@ const Hero = () => {
           </p>
 
           <div className="mt-5 flex flex-wrap gap-2 text-xs sm:text-sm">
-            {[
-              "BTC $68.4K",
-              "ETH $3.1K",
-              "SOL $145",
-              "24/7 Markets",
-            ].map((item) => (
-              <span key={item} className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-white/80">
-                {item}
-              </span>
-            ))}
+            <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-white/80">
+              BTC ${formatPrice(prices.BTC, { maximumFractionDigits: 0 })}
+            </span>
+            <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-white/80">
+              ETH ${formatPrice(prices.ETH, { maximumFractionDigits: 0 })}
+            </span>
+            <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-white/80">
+              SOL ${formatPrice(prices.SOL, { maximumFractionDigits: 0 })}
+            </span>
+            <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-white/80">
+              24/7 Markets
+            </span>
           </div>
 
           <div className="flex flex-wrap gap-3 mt-6">
@@ -76,7 +117,9 @@ const Hero = () => {
           <div className="relative">
             <div className="absolute -top-6 -left-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-3 text-xs">
               <p className="text-white/70">BTC/USD</p>
-              <p className="text-lg font-bold">$68,420</p>
+              <p className="text-lg font-bold">
+                ${formatPrice(prices.BTC, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </p>
               <p className="text-emerald-400">+2.4%</p>
             </div>
             <img
