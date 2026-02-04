@@ -16,7 +16,10 @@ import { toast } from "react-toastify";
 import Logo from "../assets/logoNew.png";
 
 const Account = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return window.innerWidth > 768;
+  });
   const [user, setUser] = useState({});
   const [isMobile, setIsMobile] = useState(false);
   const [isDark, setIsDark] = useState(false);
@@ -25,7 +28,11 @@ const Account = () => {
   const profileMenuRef = useRef(null);
 
   const handleResize = () => {
-    setIsMobile(window.innerWidth <= 768);
+    const mobile = window.innerWidth <= 768;
+    setIsMobile(mobile);
+    if (mobile) {
+      setOpen(false);
+    }
   };
 
   useEffect(() => {
@@ -82,9 +89,7 @@ const Account = () => {
   }, []);
 
   const toggleSidebar = () => {
-    if (!isMobile) {
-      setOpen(!open);
-    }
+    setOpen((prev) => !prev);
   };
 
   const handleGoToProfile = () => {
@@ -119,8 +124,8 @@ const Account = () => {
     <section className={`${isDark ? "dark" : ""} flex min-h-screen bg-[#f7f5ff] dark:bg-slate-950`}>
       <div
         className={`bg-white dark:bg-slate-900 fixed h-full border-r border-gray-200 dark:border-slate-800 shadow-[0_12px_30px_rgba(76,86,109,0.08)] flex flex-col ${
-          open ? "w-64 lg:w-72" : "w-16"
-        } duration-500 text-gray-700 px-4 overflow-hidden`}
+          open ? "w-64 lg:w-72" : "w-12 md:w-16"
+        } duration-500 text-gray-700 ${open ? "px-4" : "px-2"} overflow-hidden`}
       >
         <div className="flex justify-between my-6 items-center relative">
           <div className={`${open ? "visible" : "invisible"}`}>
@@ -218,7 +223,7 @@ const Account = () => {
       </div>
 
       <div
-        className={`w-full duration-500 ${open ? "ml-64 lg:ml-72" : "ml-16"}`}
+        className={`w-full duration-500 ${open ? "ml-64 lg:ml-72" : "ml-12 md:ml-16"}`}
       >
         <header className="sticky top-0 z-20 w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-100 dark:border-slate-800">
           <div className="flex items-center justify-between px-4 sm:px-6 py-3">

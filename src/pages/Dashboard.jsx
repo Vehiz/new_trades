@@ -464,11 +464,11 @@ const Dashboard = () => {
       </div>
 
       <div className="mb-6">
-        <div className="flex w-full flex-wrap items-center gap-2 rounded-full bg-white px-2 py-2 shadow-sm border border-gray-100 dark:border-slate-800 dark:bg-slate-900">
+        <div className="grid w-full grid-cols-2 gap-2 rounded-2xl bg-white px-2 py-2 shadow-sm border border-gray-100 sm:flex sm:flex-wrap sm:items-center dark:border-slate-800 dark:bg-slate-900">
           <button
             type="button"
             onClick={() => setActiveTab("market")}
-            className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-all ${
+            className={`w-full rounded-full px-4 py-2 text-sm font-semibold transition-all sm:flex-1 ${
               activeTab === "market"
                 ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow"
                 : "text-gray-600 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-slate-800"
@@ -479,7 +479,7 @@ const Dashboard = () => {
           <button
             type="button"
             onClick={() => setActiveTab("trading")}
-            className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-all ${
+            className={`w-full rounded-full px-4 py-2 text-sm font-semibold transition-all sm:flex-1 ${
               activeTab === "trading"
                 ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow"
                 : "text-gray-600 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-slate-800"
@@ -490,7 +490,7 @@ const Dashboard = () => {
           <button
             type="button"
             onClick={() => setActiveTab("history")}
-            className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-all ${
+            className={`w-full rounded-full px-4 py-2 text-sm font-semibold transition-all sm:flex-1 ${
               activeTab === "history"
                 ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow"
                 : "text-gray-600 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-slate-800"
@@ -501,7 +501,7 @@ const Dashboard = () => {
           <button
             type="button"
             onClick={() => setActiveTab("transactions")}
-            className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-all ${
+            className={`w-full rounded-full px-4 py-2 text-sm font-semibold transition-all sm:flex-1 ${
               activeTab === "transactions"
                 ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow"
                 : "text-gray-600 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-slate-800"
@@ -562,8 +562,8 @@ const Dashboard = () => {
 
         {activeTab === "history" && (
           <div className="space-y-6">
-            <div className="rounded-2xl border border-indigo-100 bg-indigo-50/60 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-              <div className="flex items-center justify-between">
+            <div className="rounded-2xl border border-indigo-100 bg-indigo-50/60 p-4 sm:p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
                 <p className="font-semibold text-indigo-900 dark:text-slate-100">Auto Trades (Active Rules)</p>
                 <span className="text-xs text-indigo-600 dark:text-slate-400">Parameters from your setup</span>
               </div>
@@ -573,7 +573,7 @@ const Dashboard = () => {
                 </p>
               ) : (
                 <div className="mt-4 overflow-x-auto">
-                  <table className="w-full text-left">
+                  <table className="w-full min-w-[640px] text-left text-xs sm:text-sm">
                     <thead>
                       <tr className="text-[#7b86b5] border-b border-indigo-100 dark:border-slate-800 dark:text-slate-500">
                         <th className="py-2 text-xs font-normal">Pair</th>
@@ -629,8 +629,8 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-md dark:border-slate-800 dark:bg-slate-900">
-              <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="rounded-2xl border border-gray-100 bg-white p-4 sm:p-6 shadow-md dark:border-slate-800 dark:bg-slate-900">
+              <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
                 <div>
                   <p className="font-semibold text-gray-800 dark:text-slate-100">Trade History</p>
                   <p className="mt-1 text-sm text-gray-500 dark:text-slate-400">
@@ -640,7 +640,7 @@ const Dashboard = () => {
               </div>
 
               <div className="mt-4 overflow-x-auto rounded-2xl border border-gray-100 dark:border-slate-800">
-                <table className="w-full text-left text-xs sm:text-sm">
+                <table className="w-full min-w-[720px] text-left text-xs sm:text-sm">
                   <thead className="bg-gray-50 dark:bg-slate-950">
                     <tr className="text-[#9ca3af] dark:text-slate-500">
                       <th className="py-3 px-3 font-semibold uppercase tracking-wide">Date</th>
@@ -718,8 +718,8 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-blue-100 bg-blue-50/60 p-6 shadow-sm">
-              <div className="flex items-center justify-between">
+            <div className="rounded-2xl border border-blue-100 bg-blue-50/60 p-4 sm:p-6 shadow-sm">
+              <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
                 <p className="font-semibold text-blue-900">Active Trades</p>
                 <span className="text-xs text-blue-600">Auto-trading live</span>
               </div>
@@ -727,7 +727,7 @@ const Dashboard = () => {
                 <p className="mt-3 text-sm text-blue-700">No active trades yet.</p>
               ) : (
                 <div className="mt-4 overflow-x-auto">
-                  <table className="w-full text-left">
+                  <table className="w-full min-w-[640px] text-left text-xs sm:text-sm">
                     <thead>
                       <tr className="text-[#7b91b3] border-b border-blue-100">
                         <th className="py-2 text-xs font-normal">Date</th>
@@ -761,8 +761,8 @@ const Dashboard = () => {
               )}
             </div>
 
-            <div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-6 shadow-sm">
-              <div className="flex items-center justify-between">
+            <div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4 sm:p-6 shadow-sm">
+              <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
                 <p className="font-semibold text-emerald-900">Completed Trades</p>
                 <span className="text-xs text-emerald-600">Closed positions</span>
               </div>
@@ -770,7 +770,7 @@ const Dashboard = () => {
                 <p className="mt-3 text-sm text-emerald-700">No completed trades yet.</p>
               ) : (
                 <div className="mt-4 overflow-x-auto">
-                  <table className="w-full text-left">
+                  <table className="w-full min-w-[640px] text-left text-xs sm:text-sm">
                     <thead>
                       <tr className="text-[#7fa79c] border-b border-emerald-100">
                         <th className="py-2 text-xs font-normal">Date</th>
@@ -808,12 +808,12 @@ const Dashboard = () => {
 
         {activeTab === "transactions" && (
           <div className="bg-white rounded-2xl shadow-md p-6 text-sm text-gray-600">
-            <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
               <div>
                 <p className="font-semibold text-gray-800">Transactions</p>
                 <p className="mt-1">Deposits and withdrawals are shown below.</p>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex w-full flex-wrap items-center gap-3 sm:w-auto">
                 <label className="text-xs sm:text-sm text-gray-600">
                   Filter
                   <select
@@ -836,7 +836,7 @@ const Dashboard = () => {
             </div>
 
             <div className="mt-4 overflow-x-auto">
-              <table className="w-full text-left">
+              <table className="w-full min-w-[640px] text-left">
                 <thead>
                   <tr className="text-[#9ca3af] border-b-[1px] border-[#e4e6ef]">
                     <th className="py-2 text-xs sm:text-sm font-normal">Type</th>
