@@ -136,6 +136,11 @@ const Dashboard = () => {
     [autoTradingRules]
   );
 
+  const filteredTransactions = useMemo(() => {
+    if (transactionFilter === "all") return transactions;
+    return transactions.filter((transaction) => transaction.type === transactionFilter);
+  }, [transactions, transactionFilter]);
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setAutoTradingRules((currentRules) => {
@@ -572,32 +577,67 @@ const Dashboard = () => {
                   No active auto-trade rules. Enable a rule to see it here.
                 </p>
               ) : (
-                <div className="mt-4 overflow-x-auto">
-                  <table className="w-full min-w-[640px] text-left text-xs sm:text-sm">
-                    <thead>
-                      <tr className="text-[#7b86b5] border-b border-indigo-100 dark:border-slate-800 dark:text-slate-500">
-                        <th className="py-2 text-xs font-normal">Pair</th>
-                        <th className="py-2 text-xs font-normal">Trade Amount</th>
-                        <th className="py-2 text-xs font-normal">Buy Threshold</th>
-                        <th className="py-2 text-xs font-normal">Sell Threshold</th>
-                        <th className="py-2 text-xs font-normal">Freeze Protection</th>
-                        <th className="py-2 text-xs font-normal">Timeline</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {activeAutoTrades.map((trade) => (
-                        <tr key={trade.id} className="border-b border-indigo-100 text-sm text-indigo-900 dark:border-slate-800 dark:text-slate-200">
-                          <td className="py-3 font-semibold">{trade.pair}</td>
-                          <td className="py-3">{trade.tradeAmount}</td>
-                          <td className="py-3">{trade.buyThreshold}</td>
-                          <td className="py-3">{trade.sellThreshold}</td>
-                          <td className="py-3">{trade.freezeProtection}</td>
-                          <td className="py-3">{trade.timeline}</td>
+                <>
+                  <div className="mt-4 space-y-3 sm:hidden">
+                    {activeAutoTrades.map((trade) => (
+                      <div
+                        key={trade.id}
+                        className="rounded-xl border border-indigo-100 bg-white/80 p-3 text-indigo-900 shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100"
+                      >
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm font-semibold">{trade.pair}</p>
+                          <span className="text-xs text-indigo-600 dark:text-slate-400">
+                            {trade.timeline}
+                          </span>
+                        </div>
+                        <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
+                          <div>
+                            <p className="text-[10px] uppercase text-indigo-400">Trade Amount</p>
+                            <p className="font-semibold">{trade.tradeAmount}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] uppercase text-indigo-400">Freeze</p>
+                            <p className="font-semibold">{trade.freezeProtection}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] uppercase text-indigo-400">Buy Threshold</p>
+                            <p className="font-semibold">{trade.buyThreshold}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] uppercase text-indigo-400">Sell Threshold</p>
+                            <p className="font-semibold">{trade.sellThreshold}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 hidden overflow-x-auto sm:block">
+                    <table className="w-full min-w-[640px] text-left text-xs sm:text-sm">
+                      <thead>
+                        <tr className="text-[#7b86b5] border-b border-indigo-100 dark:border-slate-800 dark:text-slate-500">
+                          <th className="py-2 text-xs font-normal">Pair</th>
+                          <th className="py-2 text-xs font-normal">Trade Amount</th>
+                          <th className="py-2 text-xs font-normal">Buy Threshold</th>
+                          <th className="py-2 text-xs font-normal">Sell Threshold</th>
+                          <th className="py-2 text-xs font-normal">Freeze Protection</th>
+                          <th className="py-2 text-xs font-normal">Timeline</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {activeAutoTrades.map((trade) => (
+                          <tr key={trade.id} className="border-b border-indigo-100 text-sm text-indigo-900 dark:border-slate-800 dark:text-slate-200">
+                            <td className="py-3 font-semibold">{trade.pair}</td>
+                            <td className="py-3">{trade.tradeAmount}</td>
+                            <td className="py-3">{trade.buyThreshold}</td>
+                            <td className="py-3">{trade.sellThreshold}</td>
+                            <td className="py-3">{trade.freezeProtection}</td>
+                            <td className="py-3">{trade.timeline}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
               )}
             </div>
 
@@ -639,7 +679,84 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              <div className="mt-4 overflow-x-auto rounded-2xl border border-gray-100 dark:border-slate-800">
+              <div className="mt-4 space-y-3 sm:hidden">
+                {tradeHistory.map((trade) => (
+                  <div
+                    key={trade.id}
+                    className="rounded-xl border border-gray-100 bg-white p-3 text-gray-700 shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200"
+                  >
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-gray-500 dark:text-slate-400">
+                        {formatDateTime(trade.date)}
+                      </p>
+                      <span
+                        className={`rounded-full px-2 py-1 text-[10px] font-semibold ${
+                          trade.status === "Completed"
+                            ? "bg-emerald-100 text-emerald-700"
+                            : trade.status === "Cancelled"
+                            ? "bg-red-100 text-red-700"
+                            : "bg-yellow-100 text-yellow-700"
+                        }`}
+                      >
+                        {trade.status}
+                      </span>
+                    </div>
+                    <div className="mt-2 flex items-center justify-between">
+                      <p className="text-sm font-semibold text-gray-800 dark:text-slate-100">
+                        {trade.pair}
+                      </p>
+                      <p
+                        className={`text-sm font-semibold ${
+                          trade.pnl.startsWith("+")
+                            ? "text-emerald-600"
+                            : trade.pnl.startsWith("-")
+                            ? "text-red-600"
+                            : "text-gray-500"
+                        }`}
+                      >
+                        {trade.pnl}
+                      </p>
+                    </div>
+                    <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        <p className="text-[10px] uppercase text-gray-400">Side</p>
+                        <span
+                          className={`inline-flex rounded-full px-2 py-1 text-[10px] font-semibold ${
+                            trade.side === "Buy"
+                              ? "bg-emerald-100 text-emerald-700"
+                              : trade.side === "Sell"
+                              ? "bg-red-100 text-red-700"
+                              : "bg-gray-100 text-gray-600"
+                          }`}
+                        >
+                          {trade.side}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase text-gray-400">Type</p>
+                        <p className="font-semibold">{trade.type}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase text-gray-400">Amount</p>
+                        <p className="font-semibold">{trade.amount}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase text-gray-400">Price</p>
+                        <p className="font-semibold">
+                          {trade.price && trade.price !== "-"
+                            ? trade.price
+                            : getLivePriceForPair(trade.pair) || "-"}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase text-gray-400">Fee</p>
+                        <p className="font-semibold">{trade.fee}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 hidden overflow-x-auto rounded-2xl border border-gray-100 dark:border-slate-800 sm:block">
                 <table className="w-full min-w-[720px] text-left text-xs sm:text-sm">
                   <thead className="bg-gray-50 dark:bg-slate-950">
                     <tr className="text-[#9ca3af] dark:text-slate-500">
@@ -726,38 +843,73 @@ const Dashboard = () => {
               {activeTrades.length === 0 ? (
                 <p className="mt-3 text-sm text-blue-700">No active trades yet.</p>
               ) : (
-                <div className="mt-4 overflow-x-auto">
-                  <table className="w-full min-w-[640px] text-left text-xs sm:text-sm">
-                    <thead>
-                      <tr className="text-[#7b91b3] border-b border-blue-100">
-                        <th className="py-2 text-xs font-normal">Date</th>
-                        <th className="py-2 text-xs font-normal">Pair</th>
-                        <th className="py-2 text-xs font-normal">Side</th>
-                        <th className="py-2 text-xs font-normal">Type</th>
-                        <th className="py-2 text-xs font-normal">Amount</th>
-                        <th className="py-2 text-xs font-normal">Price</th>
-                        <th className="py-2 text-xs font-normal">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {activeTrades.map((trade) => (
-                        <tr key={trade.id} className="border-b border-blue-100 text-sm text-blue-900">
-                          <td className="py-3 whitespace-nowrap">{formatDateTime(trade.date)}</td>
-                          <td className="py-3 font-semibold">{trade.pair}</td>
-                          <td className="py-3">{trade.side}</td>
-                          <td className="py-3">{trade.type}</td>
-                          <td className="py-3">{trade.amount}</td>
-                          <td className="py-3">{trade.price}</td>
-                          <td className="py-3">
-                            <span className="rounded-full bg-yellow-100 px-2 py-1 text-xs font-semibold text-yellow-700">
-                              {trade.status}
-                            </span>
-                          </td>
+                <>
+                  <div className="mt-4 space-y-3 sm:hidden">
+                    {activeTrades.map((trade) => (
+                      <div
+                        key={trade.id}
+                        className="rounded-xl border border-blue-100 bg-white/80 p-3 text-blue-900 shadow-sm"
+                      >
+                        <div className="flex items-center justify-between">
+                          <p className="text-xs text-blue-600">{formatDateTime(trade.date)}</p>
+                          <span className="rounded-full bg-yellow-100 px-2 py-1 text-[10px] font-semibold text-yellow-700">
+                            {trade.status}
+                          </span>
+                        </div>
+                        <div className="mt-2 flex items-center justify-between">
+                          <p className="text-sm font-semibold">{trade.pair}</p>
+                          <p className="text-xs font-semibold text-blue-600">{trade.side}</p>
+                        </div>
+                        <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
+                          <div>
+                            <p className="text-[10px] uppercase text-blue-400">Type</p>
+                            <p className="font-semibold">{trade.type}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] uppercase text-blue-400">Amount</p>
+                            <p className="font-semibold">{trade.amount}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] uppercase text-blue-400">Price</p>
+                            <p className="font-semibold">{trade.price}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 hidden overflow-x-auto sm:block">
+                    <table className="w-full min-w-[640px] text-left text-xs sm:text-sm">
+                      <thead>
+                        <tr className="text-[#7b91b3] border-b border-blue-100">
+                          <th className="py-2 text-xs font-normal">Date</th>
+                          <th className="py-2 text-xs font-normal">Pair</th>
+                          <th className="py-2 text-xs font-normal">Side</th>
+                          <th className="py-2 text-xs font-normal">Type</th>
+                          <th className="py-2 text-xs font-normal">Amount</th>
+                          <th className="py-2 text-xs font-normal">Price</th>
+                          <th className="py-2 text-xs font-normal">Status</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {activeTrades.map((trade) => (
+                          <tr key={trade.id} className="border-b border-blue-100 text-sm text-blue-900">
+                            <td className="py-3 whitespace-nowrap">{formatDateTime(trade.date)}</td>
+                            <td className="py-3 font-semibold">{trade.pair}</td>
+                            <td className="py-3">{trade.side}</td>
+                            <td className="py-3">{trade.type}</td>
+                            <td className="py-3">{trade.amount}</td>
+                            <td className="py-3">{trade.price}</td>
+                            <td className="py-3">
+                              <span className="rounded-full bg-yellow-100 px-2 py-1 text-xs font-semibold text-yellow-700">
+                                {trade.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
               )}
             </div>
 
@@ -769,38 +921,77 @@ const Dashboard = () => {
               {completedTrades.length === 0 ? (
                 <p className="mt-3 text-sm text-emerald-700">No completed trades yet.</p>
               ) : (
-                <div className="mt-4 overflow-x-auto">
-                  <table className="w-full min-w-[640px] text-left text-xs sm:text-sm">
-                    <thead>
-                      <tr className="text-[#7fa79c] border-b border-emerald-100">
-                        <th className="py-2 text-xs font-normal">Date</th>
-                        <th className="py-2 text-xs font-normal">Pair</th>
-                        <th className="py-2 text-xs font-normal">Side</th>
-                        <th className="py-2 text-xs font-normal">Type</th>
-                        <th className="py-2 text-xs font-normal">Amount</th>
-                        <th className="py-2 text-xs font-normal">Price</th>
-                        <th className="py-2 text-xs font-normal">P&L</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {completedTrades.map((trade) => (
-                        <tr key={trade.id} className="border-b border-emerald-100 text-sm text-emerald-900">
-                          <td className="py-3 whitespace-nowrap">{formatDateTime(trade.date)}</td>
-                          <td className="py-3 font-semibold">{trade.pair}</td>
-                          <td className="py-3">{trade.side}</td>
-                          <td className="py-3">{trade.type}</td>
-                          <td className="py-3">{trade.amount}</td>
-                          <td className="py-3">{trade.price}</td>
-                          <td className={`py-3 font-semibold ${
-                            trade.pnl.startsWith("+") ? "text-emerald-600" : "text-red-600"
-                          }`}>
+                <>
+                  <div className="mt-4 space-y-3 sm:hidden">
+                    {completedTrades.map((trade) => (
+                      <div
+                        key={trade.id}
+                        className="rounded-xl border border-emerald-100 bg-white/80 p-3 text-emerald-900 shadow-sm"
+                      >
+                        <div className="flex items-center justify-between">
+                          <p className="text-xs text-emerald-600">{formatDateTime(trade.date)}</p>
+                          <p
+                            className={`text-sm font-semibold ${
+                              trade.pnl.startsWith("+") ? "text-emerald-600" : "text-red-600"
+                            }`}
+                          >
                             {trade.pnl}
-                          </td>
+                          </p>
+                        </div>
+                        <div className="mt-2 flex items-center justify-between">
+                          <p className="text-sm font-semibold">{trade.pair}</p>
+                          <p className="text-xs font-semibold text-emerald-600">{trade.side}</p>
+                        </div>
+                        <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
+                          <div>
+                            <p className="text-[10px] uppercase text-emerald-400">Type</p>
+                            <p className="font-semibold">{trade.type}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] uppercase text-emerald-400">Amount</p>
+                            <p className="font-semibold">{trade.amount}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] uppercase text-emerald-400">Price</p>
+                            <p className="font-semibold">{trade.price}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 hidden overflow-x-auto sm:block">
+                    <table className="w-full min-w-[640px] text-left text-xs sm:text-sm">
+                      <thead>
+                        <tr className="text-[#7fa79c] border-b border-emerald-100">
+                          <th className="py-2 text-xs font-normal">Date</th>
+                          <th className="py-2 text-xs font-normal">Pair</th>
+                          <th className="py-2 text-xs font-normal">Side</th>
+                          <th className="py-2 text-xs font-normal">Type</th>
+                          <th className="py-2 text-xs font-normal">Amount</th>
+                          <th className="py-2 text-xs font-normal">Price</th>
+                          <th className="py-2 text-xs font-normal">P&L</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {completedTrades.map((trade) => (
+                          <tr key={trade.id} className="border-b border-emerald-100 text-sm text-emerald-900">
+                            <td className="py-3 whitespace-nowrap">{formatDateTime(trade.date)}</td>
+                            <td className="py-3 font-semibold">{trade.pair}</td>
+                            <td className="py-3">{trade.side}</td>
+                            <td className="py-3">{trade.type}</td>
+                            <td className="py-3">{trade.amount}</td>
+                            <td className="py-3">{trade.price}</td>
+                            <td className={`py-3 font-semibold ${
+                              trade.pnl.startsWith("+") ? "text-emerald-600" : "text-red-600"
+                            }`}>
+                              {trade.pnl}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
               )}
             </div>
           </div>
@@ -835,7 +1026,51 @@ const Dashboard = () => {
               </Link>
             </div>
 
-            <div className="mt-4 overflow-x-auto">
+            <div className="mt-4 space-y-3 sm:hidden">
+              {transactionsLoading ? (
+                <div className="rounded-xl border border-gray-100 bg-white p-4 text-center text-sm text-gray-500">
+                  Loading transactions...
+                </div>
+              ) : filteredTransactions.length > 0 ? (
+                filteredTransactions.map((transaction) => (
+                  <div
+                    key={transaction.id}
+                    className="rounded-xl border border-gray-100 bg-white p-3 text-gray-700 shadow-sm"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span
+                        className={`inline-flex rounded-full px-2 py-1 text-[10px] font-semibold ${
+                          transaction.type === "Deposit"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
+                      >
+                        {transaction.type}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        {transaction.date
+                          ? new Date(transaction.date).toISOString().split("T")[0]
+                          : "-"}
+                      </span>
+                    </div>
+                    <div className="mt-2 flex items-center justify-between">
+                      <p className="text-sm font-semibold">{transaction.amount}</p>
+                      <p className="text-xs font-semibold text-gray-600">{transaction.status}</p>
+                    </div>
+                    <div className="mt-2 text-xs">
+                      <p className="text-[10px] uppercase text-gray-400">Method</p>
+                      <p className="font-semibold">{transaction.method}</p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="rounded-xl border border-gray-100 bg-white p-4 text-center text-sm text-gray-500">
+                  No transactions available.
+                </div>
+              )}
+            </div>
+
+            <div className="mt-4 hidden overflow-x-auto sm:block">
               <table className="w-full min-w-[640px] text-left">
                 <thead>
                   <tr className="text-[#9ca3af] border-b-[1px] border-[#e4e6ef]">
@@ -853,14 +1088,8 @@ const Dashboard = () => {
                         Loading transactions...
                       </td>
                     </tr>
-                  ) : transactions.length > 0 ? (
-                    transactions
-                      .filter((transaction) =>
-                        transactionFilter === "all"
-                          ? true
-                          : transaction.type === transactionFilter
-                      )
-                      .map((transaction) => (
+                  ) : filteredTransactions.length > 0 ? (
+                    filteredTransactions.map((transaction) => (
                       <tr key={transaction.id} className="border-b">
                         <td className="py-2 text-xs sm:text-sm">
                           <span
@@ -882,7 +1111,7 @@ const Dashboard = () => {
                         <td className="py-2 text-xs sm:text-sm">{transaction.method}</td>
                         <td className="py-2 text-xs sm:text-sm">{transaction.status}</td>
                       </tr>
-                      ))
+                    ))
                   ) : (
                     <tr>
                       <td className="py-4 text-center text-sm" colSpan="5">
